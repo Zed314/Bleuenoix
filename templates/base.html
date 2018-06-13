@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <title>{% block title %}Def template{% endblock %}</title>
+</head>
+<body>
+<header>Le header</header>
+    <nav>
+       {% block nav %}
+       <ul>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/contact/">Contact</a></li>
+       </ul>
+       {% endblock %}
+   </nav>
+   <section id="content">
+       {% block content %}{% endblock %}
+   </section>
+<footer>Le footer</footer>
+</body>
+</html>
