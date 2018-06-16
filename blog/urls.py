@@ -25,5 +25,6 @@ urlpatterns = [
     path('date',views.date),
     path('ac',views.accueil),
     path('l',views.lp, name="nom"),
+    path('contact/',views.contact, name="contact"),
 
 ]

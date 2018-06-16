@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+{% block title %} LE TITRE DE L'ONGLET {% endblock %}
+{% block content %} <a href="{% url "sendmemes" %}">send da memes</a> 
+
+<ul>
+    {% for meme in memes %}
+        <li>Par {{ meme.auteur }}, le {{meme.date}} <img width=100px
+            height=100px src="{{ meme.image.url }}"/></li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
