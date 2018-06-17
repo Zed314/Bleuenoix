@@ -15,12 +15,20 @@ Including another URLconf
 """
 
 from django.urls import path
+from django.views.generic import ListView
+
 from . import views
-from .views import allmemes, sendmemes
+from .views import sendmemes, ListMemes, SeeMeme
+from .models import Meme
 
 urlpatterns = [
-     path('', views.allmemes, name  = "accueil"),
+     path('', ListMemes.as_view(), name="accueil"),
+#     path('', ListView.as_view(model=Meme,
+ #                   context_object_name="memes",
+  #                  template_name="benointerest/accueil.html")),
      path('senddamemes', views.sendmemes, name  = "sendmemes"),
+  #   path(r'^meme/(?P<pk>\d+)$', views.SeeMeme.as_view(), name = "seememe"),
+     path("meme/<int:pk>", views.SeeMeme.as_view(), name = "seememe"),
 
 
 ]

@@ -4,3 +4,4 @@ db.sqlite3
 */migrations/
 media/
 */*pycache*/
+local_settings.py

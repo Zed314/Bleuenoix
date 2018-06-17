@@ -1,12 +1,18 @@
 from django.shortcuts import render
 from .forms import MemeForm
 from .models import Meme
+from django.views.generic import ListView, DetailView
 # Create your views here.
 
-def allmemes(request):
-    memes = Meme.objects.all()
-    print(memes)
-    return render(request,'benointerest/accueil.html', {'memes':memes,'req':request})
+class ListMemes(ListView):
+    model=Meme
+    context_object_name="memes"
+    template_name="benointerest/accueil.html"
+
+class SeeMeme(DetailView):
+    model=Meme
+    context_object_name="meme"
+    template_name="benointerest/explore.html"
 
 def sendmemes(request):
     # Construire le formulaire, soit avec les données postées,

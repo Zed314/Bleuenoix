@@ -4,8 +4,8 @@
 
 <ul>
     {% for meme in memes %}
-        <li>Par {{ meme.auteur }}, le {{meme.date}} <img width=100px
-            height=100px src="{{ meme.image.url }}"/></li>
+        <li>Par {{ meme.auteur }}, le {{meme.date}} <a href="{% url "seememe" meme.id %}"><img width=100px
+            height=100px src="{{ meme.image.url }}"/></a></li>
     {% endfor %}
     </ul>
 
