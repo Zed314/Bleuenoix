@@ -3,6 +3,7 @@
 {% block content %} <a href="{% url "sendmemes" %}">send da memes</a> 
 
 
-        Par {{ meme.auteur }}, le {{meme.date}} <img width=100px
+        Nom: {{meme.titre}}, Categorie: {{meme.categorie.nom}}, Par {{ meme.auteur }}, le {{meme.date}} <img width=100px
             height=100px src="{{ meme.image.url }}"/>
+        <a href="{% url "updatememe" meme.id %}">Mettre à jour</a>
 {% endblock %}

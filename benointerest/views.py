@@ -1,7 +1,41 @@
 from django.shortcuts import render
-from .forms import MemeForm
+from django.urls import reverse_lazy
+from .forms import MemeForm, ConnexionForm
 from .models import Meme
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+
+from django.contrib.auth import authenticate, login
+
+def connexion(request):
+    error = False
+
+    if request.method == "POST":
+        form = ConnexionForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)  # Nous vérifions si les données sont correctes
+            if user:  # Si l'objet renvoyé n'est pas None
+                login(request, user)  # nous connectons l'utilisateur
+            else: # sinon une erreur sera affichée
+                error = True
+    else:
+        form = ConnexionForm()
+
+    return render(request, 'benointerest/connexion.html', locals())
+
+class CreateMeme(CreateView):
+    model = Meme
+    template_name = 'benointerest/sendmemes.html'
+    form_class = MemeForm
+    success_url = reverse_lazy('accueil')
+
+class UpdateMeme(UpdateView):
+    model = Meme
+    template_name = 'benointerest/sendmemes.html'
+    form_class = MemeForm
+    success_url = reverse_lazy('accueil')
+     #   success_url = reverse_lazy(seememe)
 # Create your views here.
 
 class ListMemes(ListView):

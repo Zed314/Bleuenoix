@@ -26,9 +26,12 @@ urlpatterns = [
 #     path('', ListView.as_view(model=Meme,
  #                   context_object_name="memes",
   #                  template_name="benointerest/accueil.html")),
-     path('senddamemes', views.sendmemes, name  = "sendmemes"),
+    # path('senddamemes', views.sendmemes, name  = "sendmemes"),
+     path('senddamemes', views.CreateMeme.as_view(), name  = "sendmemes"),
+     path('updatememe/<int:pk>', views.UpdateMeme.as_view(), name  = "updatememe"),
   #   path(r'^meme/(?P<pk>\d+)$', views.SeeMeme.as_view(), name = "seememe"),
      path("meme/<int:pk>", views.SeeMeme.as_view(), name = "seememe"),
+     path("connexion",views.connexion,name='connexion')
 
 
 ]
