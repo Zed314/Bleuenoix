@@ -1,12 +1,33 @@
+
 {% extends "base.html" %} 
+{% load static %}
 {% block title %} LE TITRE DE L'ONGLET {% endblock %}
+{% block header %} 
+<link rel="stylesheet" type="text/css" href="{% static 'benointerest/style.css' %}" />
+{% endblock %}
 {% block content %} <a href="{% url "sendmemes" %}">send da memes</a> 
 
-<ul>
-    {% for meme in memes %}
-        <li>Par {{ meme.auteur }}, le {{meme.date}} <a href="{% url "seememe" meme.id %}"><img width=100px
-            height=100px src="{{ meme.image.url }}"/></a></li>
-    {% endfor %}
-    </ul>
+<a href="{% url "connexion" %}">connexion</a> 
 
+<a href="{% url "deconnexion" %}">deconnexion</a> 
+<a href="{% url "updateprofile" user.profil.id %}">maj profil</a> 
+<img class="profile-picture" width="75" height="75" style="border-radius:50%"  src="{{user.profil.avatar.url}}"/>
+<h1>Test</h1>
+
+        <div id="grid" data-columns>
+    
+                        {% for meme in memes %}
+
+                        <div class="center-cropped"  style="background-image: url({{meme.image.url}});">
+                        </div>
+               
+                    {% endfor %}
+               
+        </div>
+        
+
+
+
+    <script src="{% static 'benointerest/savatorre.js' %}"></script> 
+    
 {% endblock %}

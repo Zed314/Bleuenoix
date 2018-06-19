@@ -1,9 +1,14 @@
 {% extends "base.html" %} 
 {% block title %} LE TITRE DE L'ONGLET {% endblock %}
-{% block content %} <a href="{% url "sendmemes" %}">send da memes</a> 
+{% block content %}
+
+<a href="{% url "sendmemes" %}">send da memes</a> 
 
 
-        Nom: {{meme.titre}}, Categorie: {{meme.categorie.nom}}, Par {{ meme.auteur }}, le {{meme.date}} <img width=100px
+        Nom: {{meme.titre}}, Categorie: {{meme.categorie.nom}}, Par {{ meme.uplauder.username }}, le {{meme.date}} <img width=100px
             height=100px src="{{ meme.image.url }}"/>
+       
+            {% if meme.uplauder == request.user %}
         <a href="{% url "updatememe" meme.id %}">Mettre à jour</a>
+        {% endif %}
 {% endblock %}

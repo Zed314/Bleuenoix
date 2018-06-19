@@ -1,10 +1,15 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
-from .forms import MemeForm, ConnexionForm
-from .models import Meme
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from .forms import MemeForm, ConnexionForm, ProfilForm
+from .models import Meme, Profil
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+
+def deconnexion(request):
+    logout(request)
+    return redirect(reverse("accueil"))
 
 def connexion(request):
     error = False
@@ -30,11 +35,28 @@ class CreateMeme(CreateView):
     form_class = MemeForm
     success_url = reverse_lazy('accueil')
 
+    def form_valid(self, form):
+        form.instance.uplauder = self.request.user
+        return super().form_valid(form)    
+
+class UpdateProfil(UpdateView):
+    model = Profil
+    template_name = 'benointerest/profil.html'
+    form_class = ProfilForm
+    success_url = reverse_lazy('updateprofile')
+
+
 class UpdateMeme(UpdateView):
     model = Meme
     template_name = 'benointerest/sendmemes.html'
     form_class = MemeForm
     success_url = reverse_lazy('accueil')
+
+    def form_valid(self, form):
+        if self.request.user != form.instance.uplauder:
+      #      print("nope")
+            return super().form_invalid(form)
+        return super().form_valid(form)    
      #   success_url = reverse_lazy(seememe)
 # Create your views here.
 
