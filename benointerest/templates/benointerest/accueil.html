@@ -3,41 +3,74 @@
 {% load static %}
 {% block title %} LE TITRE DE L'ONGLET {% endblock %}
 {% block header %} 
-<link rel="stylesheet" type="text/css" href="{% static 'benointerest/style.css' %}" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {% endblock %}
-{% block content %} <a href="{% url "sendmemes" %}">send da memes</a> 
+{% block content %} 
 
-<a href="{% url "connexion" %}">connexion</a> 
 
-<a href="{% url "deconnexion" %}">deconnexion</a> 
-<a href="{% url "updateprofile" user.profil.id %}">maj profil</a> 
-<img class="profile-picture" width="75" height="75" style="border-radius:50%"  src="{{user.profil.avatar.url}}"/>
+<!--<img class="profile-picture" width="75" height="75" style="border-radius:50%"  src="{{user.profil.avatar.url}}"/> -->
 <h1>Benoipedia <span class="lennyface"></span></h1>
 
 
-
+<div id="grid-wrapper">
         <div id="grid" data-columns>
     
                         {% for meme in memes %}
 
-                        <a href = "{% url "updatememe" meme.id %}">
-                            <div class="center-cropped"  style="background-image: url({{meme.image.url}});">
-                        
-                        </div>
+                        <a data-meme-id="{{meme.id}}" class="modal-opener" href = "{% url "updatememe" meme.id %}" data-toggle="modal" data-target="#memeModal">
+                            <div class="center-cropped"  style="background-image: url({{meme.image.url}});"></div>
                     </a>
                
                     {% endfor %}
                
         </div>
         
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Launch demo modal
+          </button>
 
 
-
+<!-- Modal -->
+<div class="modal fade" id="memeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <p name="bookId" id="inside" value="">auieauie </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
     <script src="{% static 'benointerest/savatorre.js' %}"></script> 
     <script>
+            $(document).ready(function(){
+              
+          
             $.get( "http://api.lenny.today/v1/random", function( data ) {
                 $( "span.lennyface" ).html( data[0].face );
               });
+              $('#memeModal').on('show.bs.modal', function(e) {
+                console.log($(e.relatedTarget).data('meme-id'));
+                console.log( $(e.currentTarget));
+                console.log( $(e.currentTarget).find('#inside'));
+                //get data-id attribute of the clicked element
+               
+                //populate the textbox
+                $(e.currentTarget).find('#inside').val($(e.relatedTarget).data('meme-id'));
+
+                $(e.currentTarget).find('#inside').append($(e.relatedTarget).data('meme-id'));
+            });
+        });
     </script>
 {% endblock %}
