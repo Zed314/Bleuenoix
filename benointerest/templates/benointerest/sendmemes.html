@@ -1,7 +1,80 @@
-{% if envoi %}Votre message a bien été envoyé !{% endif %}
+{% extends "base.html" %} 
+{% load static %}
+{% block header %} 
+<link rel="stylesheet" type="text/css" href="{% static 'benointerest/style.css' %}" />
+<style>
+    @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+</style>
+{% endblock %}
 
+{% block content %} 
+
+<div >
+
+  <div id="uplaudbox">
+    <div class="js--image-preview"></div>
+    <div class="upload-options">
+      <label>
+        <input type="file" class="image-upload" accept="image/*" />
+      </label>
+    </div>
+  </div>
+
+
+  <script>function initImageUpload(box) {
+    let uploadField = box.querySelector('.image-upload');
+  
+    uploadField.addEventListener('change', getFile);
+  
+    function getFile(e){
+      let file = e.currentTarget.files[0];
+      checkType(file);
+    }
+    
+    function previewImage(file){
+      let thumb = box.querySelector('.js--image-preview'),
+          reader = new FileReader();
+  
+      reader.onload = function() {
+        thumb.style.backgroundImage = 'url(' + reader.result + ')';
+      }
+      reader.readAsDataURL(file);
+      thumb.className += ' js--no-default';
+    }
+  
+    function checkType(file){
+      let imageType = /image.*/;
+      if (!file.type.match(imageType)) {
+        throw 'The file is not an image';
+      } else if (!file){
+        throw 'You choose no image…';
+      } else {
+        previewImage(file);
+      }
+    }
+    
+  }
+  
+  // initialize box-scope
+  var box = document.getElementById('uplaudbox');
+  
+    initImageUpload(box);
+  
+
+  
+  
+    
+  
+  </script>
+<div class="custom-file">
+    <input type="file" class="custom-file-input" id="customFile">
+    <label class="custom-file-label" for="customFile">Choose file</label>
+  </div>
 <form enctype="multipart/form-data" action=" " method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
+
+{% endblock %} 

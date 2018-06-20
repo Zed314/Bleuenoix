@@ -4,6 +4,7 @@
 {% block title %} LE TITRE DE L'ONGLET {% endblock %}
 {% block header %} 
 <link rel="stylesheet" type="text/css" href="{% static 'benointerest/style.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {% endblock %}
 {% block content %} <a href="{% url "sendmemes" %}">send da memes</a> 
 
@@ -12,14 +13,19 @@
 <a href="{% url "deconnexion" %}">deconnexion</a> 
 <a href="{% url "updateprofile" user.profil.id %}">maj profil</a> 
 <img class="profile-picture" width="75" height="75" style="border-radius:50%"  src="{{user.profil.avatar.url}}"/>
-<h1>Test</h1>
+<h1>Benoipedia <span class="lennyface"></span></h1>
+
+
 
         <div id="grid" data-columns>
     
                         {% for meme in memes %}
 
-                        <div class="center-cropped"  style="background-image: url({{meme.image.url}});">
+                        <a href = "{% url "updatememe" meme.id %}">
+                            <div class="center-cropped"  style="background-image: url({{meme.image.url}});">
+                        
                         </div>
+                    </a>
                
                     {% endfor %}
                
@@ -29,5 +35,9 @@
 
 
     <script src="{% static 'benointerest/savatorre.js' %}"></script> 
-    
+    <script>
+            $.get( "http://api.lenny.today/v1/random", function( data ) {
+                $( "span.lennyface" ).html( data[0].face );
+              });
+    </script>
 {% endblock %}
