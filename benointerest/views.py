@@ -7,9 +7,46 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
+from django.http import HttpResponse
+from django.http import JsonResponse
+
+
 def deconnexion(request):
     logout(request)
     return redirect(reverse("accueil"))
+
+def likeMeme(request):
+    if request.method == 'GET':
+        post_id = request.GET.get('post_id',False)
+        if post_id == False:
+            return JsonResponse({'ok':False})    
+        try:
+            likedMeme = Meme.objects.get(id=post_id) #getting the liked posts
+        except Meme.DoesNotExist:
+            return JsonResponse({'ok':False}) 
+        likedMeme.upvoters.add(request.user.profil)
+        likedMeme.downvoters.remove(request.user.profil)
+        likedMeme.save()  # saving it to store in database
+        return JsonResponse({'ok':True}) # Sending an success response
+    else:
+        return JsonResponse({'ok':False}) 
+
+
+def dislikeMeme(request):
+    if request.method == 'GET':
+        post_id = request.GET.get('post_id',False)
+        if post_id == False:
+            return JsonResponse({'ok':False})    
+        try:
+            dislikedMeme = Meme.objects.get(id=post_id) #getting the liked posts
+        except Meme.DoesNotExist:
+            return JsonResponse({'ok':False}) 
+        dislikedMeme.upvoters.remove(request.user.profil)
+        dislikedMeme.downvoters.add(request.user.profil)
+        dislikedMeme.save()  # saving it to store in database
+        return JsonResponse({'ok':True}) # Sending an success response
+    else:
+        return JsonResponse({'ok':False}) 
 
 def connexion(request):
     error = False

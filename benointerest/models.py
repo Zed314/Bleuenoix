@@ -21,6 +21,8 @@ class Meme(models.Model):
     date = models.DateTimeField(default=timezone.now, 
                                 verbose_name="Date de parution")
     categorie = models.ForeignKey('Categorie', on_delete=models.SET_NULL, null=True)
+    upvoters = models.ManyToManyField(Profil, related_name="upvoters")
+    downvoters = models.ManyToManyField(Profil, related_name="downvoters")
     class Meta:
         verbose_name = "meme"
         ordering = ['date']
