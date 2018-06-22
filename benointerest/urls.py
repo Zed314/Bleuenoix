@@ -20,7 +20,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import sendmemes, ListMemes, SeeMeme, likeMeme, dislikeMeme
+from .views import sendmemes, ListMemes, SeeMeme, likeMeme, dislikeMeme, signup
 from .models import Meme
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     #                   context_object_name="memes",
     #                  template_name="benointerest/accueil.html")),
     # path('senddamemes', views.sendmemes, name  = "sendmemes"),
+    path("signup", views.signup, name="signup"),
     path("senddamemes", login_required(views.CreateMeme.as_view()), name="sendmemes"),
     path(
         "updatememe/<int:pk>",

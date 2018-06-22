@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from .forms import MemeForm, ConnexionForm, ProfilForm
+from .forms import MemeForm, ConnexionForm, ProfilForm, SignUpForm
 from .models import Meme, Profil
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -10,6 +10,24 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import JsonResponse
 
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+ 
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            profil = Profil()
+            profil.user = user
+            profil.save()
+            login(request, user)
+            return redirect('accueil')
+    else:
+        form = SignUpForm()
+    return render(request, 'benointerest/signup.html', {'form': form})
 
 def deconnexion(request):
     logout(request)
@@ -27,7 +45,8 @@ def likeMeme(request):
         likedMeme.upvoters.add(request.user.profil)
         likedMeme.downvoters.remove(request.user.profil)
         likedMeme.save()  # saving it to store in database
-        return JsonResponse({'ok':True}) # Sending an success response
+        return JsonResponse({'ok':True , 'upvotes': likedMeme.upvoters.count() ,'downvotes': likedMeme.downvoters.count()  }) # Sending an success response
+ 
     else:
         return JsonResponse({'ok':False}) 
 
@@ -44,7 +63,7 @@ def dislikeMeme(request):
         dislikedMeme.upvoters.remove(request.user.profil)
         dislikedMeme.downvoters.add(request.user.profil)
         dislikedMeme.save()  # saving it to store in database
-        return JsonResponse({'ok':True}) # Sending an success response
+        return JsonResponse({'ok':True , 'upvotes': dislikedMeme.upvoters.count() ,'downvotes': dislikedMeme.downvoters.count()  }) # Sending an success response
     else:
         return JsonResponse({'ok':False}) 
 
