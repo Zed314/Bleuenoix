@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from .forms import MemeForm, ConnexionForm, ProfilForm, SignUpForm
+from .forms import MemeForm, ProfilForm, SignUpForm
 from .models import Meme, Profil
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
@@ -13,25 +13,25 @@ from django.http import JsonResponse
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
- 
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             profil = Profil()
+            profil.avatar = form.cleaned_data.get('avatar')
             profil.user = user
             profil.save()
             login(request, user)
-            return redirect('accueil')
+            return redirect('home')
     else:
         form = SignUpForm()
     return render(request, 'benointerest/signup.html', {'form': form})
 
 def deconnexion(request):
     logout(request)
-    return redirect(reverse("accueil"))
+    return redirect(reverse("home"))
 
 def likeMeme(request):
     if request.method == 'GET':
@@ -67,29 +67,12 @@ def dislikeMeme(request):
     else:
         return JsonResponse({'ok':False}) 
 
-def connexion(request):
-    error = False
-
-    if request.method == "POST":
-        form = ConnexionForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            user = authenticate(username=username, password=password)  # Nous vérifions si les données sont correctes
-            if user:  # Si l'objet renvoyé n'est pas None
-                login(request, user)  # nous connectons l'utilisateur
-            else: # sinon une erreur sera affichée
-                error = True
-    else:
-        form = ConnexionForm()
-
-    return render(request, 'benointerest/connexion.html', locals())
 
 class CreateMeme(CreateView):
     model = Meme
     template_name = 'benointerest/sendmemes.html'
     form_class = MemeForm
-    success_url = reverse_lazy('accueil')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         form.instance.uplauder = self.request.user
@@ -106,7 +89,7 @@ class UpdateMeme(UpdateView):
     model = Meme
     template_name = 'benointerest/sendmemes.html'
     form_class = MemeForm
-    success_url = reverse_lazy('accueil')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         if self.request.user != form.instance.uplauder:
@@ -119,7 +102,7 @@ class UpdateMeme(UpdateView):
 class ListMemes(ListView):
     model=Meme
     context_object_name="memes"
-    template_name="benointerest/accueil.html"
+    template_name="benointerest/home.html"
 
 class SeeMeme(DetailView):
     model=Meme

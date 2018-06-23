@@ -19,13 +19,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from django.conf import settings
-
+from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/', include('blog.urls')),
     path('memes/', include('benointerest.urls')),
-    path('', views.accueil),
+    path('',  RedirectView.as_view(pattern_name='home', permanent=False)),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

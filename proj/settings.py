@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
     'benointerest',
 ]
 
@@ -129,5 +128,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
 
 
-LOGIN_URL = 'connexion'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL= 'home'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -24,11 +24,7 @@ from .views import sendmemes, ListMemes, SeeMeme, likeMeme, dislikeMeme, signup
 from .models import Meme
 
 urlpatterns = [
-    path("", login_required(ListMemes.as_view()), name="accueil"),
-    #     path('', ListView.as_view(model=Meme,
-    #                   context_object_name="memes",
-    #                  template_name="benointerest/accueil.html")),
-    # path('senddamemes', views.sendmemes, name  = "sendmemes"),
+    path("", login_required(ListMemes.as_view()), name="home"),
     path("signup", views.signup, name="signup"),
     path("senddamemes", login_required(views.CreateMeme.as_view()), name="sendmemes"),
     path(
@@ -36,18 +32,14 @@ urlpatterns = [
         login_required(views.UpdateMeme.as_view()),
         name="updatememe",
     ),
-    #   path(r'^meme/(?P<pk>\d+)$', views.SeeMeme.as_view(), name = "seememe"),
     path("meme/<int:pk>", login_required(views.SeeMeme.as_view()), name="seememe"),
     path(
-        "connexion",
+        "login",
         auth_views.login,
-        {"template_name": "benointerest/connexion.html"},
-        name="connexion",
+        {"template_name": "benointerest/login.html"},
+        name="login",
     ),
-    # {'template_name': 'benointerest/connexion.html'},
-    path("deconnexion", auth_views.logout, {"next_page": "/memes"}, name="deconnexion"),
-    # path('account_activation_sent', views.account_activation_sent, name='account_activation_sent'),
-    # path('activate/<str:uidb64>/<str:token>', views.activate, name='activate'),
+    path("logout", auth_views.logout, {"next_page": "/memes"}, name="logout"),
     path(
         "profil/<int:pk>",
         login_required(views.UpdateProfil.as_view()),

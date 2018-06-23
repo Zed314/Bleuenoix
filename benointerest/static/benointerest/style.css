@@ -37,7 +37,9 @@
   margin-right: auto;
 }
 
-
+#signup-btn {
+  margin-left: 1em;
+}
 .center-cropped {
   width: 100%;
   padding-top: 100%; 
