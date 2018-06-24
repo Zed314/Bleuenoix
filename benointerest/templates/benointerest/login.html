@@ -1,19 +1,20 @@
 {% extends "base.html" %} 
 
 {% block content%}
-<h1>Se connecter</h1>
+
 
 {% if error %}
-<p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p>
+<p><strong>Wrong username/password</strong></p>
 {% endif %}
 
 {% if user.is_authenticated %}
-Vous êtes connecté, {{ user.username }} !
+Your are already logged in, {{ user.username }} !
 {% else %}
-<form method="post" action="">
+<form class="form-signin" method="post" action="">
+        <h1>Login</h1>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Se connecter" />
+    <input type="submit" class="btn btn-primary" value="Login" />
 </form>
 {% endif %}
 {%endblock%}

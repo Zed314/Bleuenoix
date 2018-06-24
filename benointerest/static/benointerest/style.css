@@ -1,3 +1,38 @@
+.form-signup
+{
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  text-align: center;
+}
+.form-signin
+{
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  text-align: center;
+}
+
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+
+
 #grid[data-columns]::before {
 	content: '3 .column.size-1of3';
 }
@@ -25,6 +60,8 @@
 #grid-wrapper {
   margin-right: 5%;
   margin-left: 5%;
+  overflow: auto;
+  margin-bottom: 5em;
 }
 
 #img-modal {
@@ -92,16 +129,11 @@
           justify-content: center;
 }
 
-h1 {
-  font-family: inherit;
-  margin: 0 0 .75em 0;
-  color: #728c8d;
-  text-align: center;
-}
+
 
 #uplaudbox {
   display: block;
-  min-width: 300px;
+  width: 300px;
   height: 300px;
   margin: 10px;
   background-color: white;
@@ -206,35 +238,6 @@ i.material-icons {
   display: block;
 }
 
-.drop {
-  display: block;
-  position: absolute;
-  background: rgba(95, 158, 160, 0.2);
-  border-radius: 100%;
-  -webkit-transform: scale(0);
-          transform: scale(0);
-}
-
-.animate {
-  -webkit-animation: ripple 0.4s linear;
-          animation: ripple 0.4s linear;
-}
-
-@-webkit-keyframes ripple {
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(2.5);
-            transform: scale(2.5);
-  }
-}
-
-@keyframes ripple {
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(2.5);
-            transform: scale(2.5);
-  }
-}
 
 /* Again, you’re free to use and define the classes: */
 /*.column { float: left; }
@@ -280,6 +283,3 @@ i.material-icons {
       max-width: 100%;
     }
   }*/
-h1 {
-      color: red;
-}
