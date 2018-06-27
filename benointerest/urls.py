@@ -27,7 +27,7 @@ urlpatterns = [
     path(
         "profil/<int:pk>",
         login_required(views.UpdateProfil.as_view()),
-        name="updateprofile",
+        name="updateprofile"
     ),
     path("likememe", login_required(views.likeMeme), name="likememe"),
     path("dislikememe", login_required(views.dislikeMeme), name="dislikememe"),
