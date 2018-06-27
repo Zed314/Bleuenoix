@@ -57,7 +57,7 @@ def dislikeMeme(request):
         if post_id == False:
             return JsonResponse({'ok':False})    
         try:
-            dislikedMeme = Meme.objects.get(id=post_id) #getting the liked posts
+            dislikedMeme = Meme.objects.get(id=post_id) #getting the disliked meme
         except Meme.DoesNotExist:
             return JsonResponse({'ok':False}) 
         dislikedMeme.upvoters.remove(request.user.profil)
@@ -66,6 +66,23 @@ def dislikeMeme(request):
         return JsonResponse({'ok':True , 'upvotes': dislikedMeme.upvoters.count() ,'downvotes': dislikedMeme.downvoters.count()  }) # Sending an success response
     else:
         return JsonResponse({'ok':False}) 
+
+def deleteMeme(request):
+    if request.method == 'GET':
+        post_id = request.GET.get('post_id',False)
+        if not request.user.has_perm("benointerest.delete_meme"):
+            return JsonResponse({'ok':False})  
+        if post_id == False:
+            return JsonResponse({'ok':False})    
+        try:
+            memeToDelete = Meme.objects.get(id=post_id) 
+        except Meme.DoesNotExist:
+            return JsonResponse({'ok':False}) 
+        memeToDelete.delete()
+        return JsonResponse({'ok':True}) # Sending an success response
+    else:
+        return JsonResponse({'ok':False}) 
+
 
 
 class CreateMeme(CreateView):

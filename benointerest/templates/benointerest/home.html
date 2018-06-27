@@ -52,8 +52,12 @@
         <!--           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
         <button id="like-button" data-appreciation="like" data-meme-id="" type="button" class="btn btn-primary btn-success vote-button">
           Upvote (<span id="number-upvotes"></span>)</button>
-        <button id="dilike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
+        <button id="dislike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
           Downvote (<span id="number-downvotes"></span>)</button>
+          {% if perms.benointerest.delete_meme %}
+          <button id="delete-button" data-meme-id="" type="button" class="btn btn-primary btn-danger">
+            DELETE</button>
+          {% endif %}
       </div>
     </div>
   </div>
@@ -75,6 +79,7 @@
       //populate the textboxe.currentTarget).find('#inside').val($(e.relatedTarget).data('meme-id'));
       $("#img-modal").attr("src", $(e.relatedTarget).data('meme-url'));
       $(".vote-button").attr("data-meme-id", $(e.relatedTarget).data('meme-id'));
+      $("#delete-button").attr("data-meme-id", $(e.relatedTarget).data('meme-id'));
       $('#number-upvotes').text($(e.relatedTarget).data('meme-upvotes'));
       $('#number-downvotes').text($(e.relatedTarget).data('meme-downvotes'));
       $('#meme-uplauder').text($(e.relatedTarget).data('meme-uplauder'));
@@ -112,6 +117,26 @@
 
             $("[data-meme-id="+memeid+"]").data("meme-upvotes",data.upvotes);
             $("[data-meme-id="+memeid+"]").data("meme-downvotes",data.downvotes);
+            /*  $( '#like'+ catid ).remove();
+              $( '#message' ).text(data);*/
+          }
+        })
+    });
+    $('#delete-button').click(function () {
+      var memeid = $(this).data('meme-id');
+      $.ajax(
+        {
+          type: "GET",
+          url: "/memes/deletememe",
+          data: {
+            post_id: memeid
+          },
+          success: function (data) {
+            if (data.ok === false) {
+              alert("Fail" + appreciation);
+              return;
+            }
+            alert("deleted");
             /*  $( '#like'+ catid ).remove();
               $( '#message' ).text(data);*/
           }
