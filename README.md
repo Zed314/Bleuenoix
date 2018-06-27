@@ -12,7 +12,7 @@ This project is based on Django 2.0.6 and on Pillow.
 
 To generate the virtual environment of the server, simply use the command :
 
-```  virtualenv --no-site-packages --distribute env && source env/bin/activate && pip install -r requirements.txt && deactivate ```
+```  virtualenv --no-site-packages --distribute env && source env/bin/activate && pip install -r requirements.txt ```
 
 Then do the migrations
 
