@@ -26,7 +26,7 @@ def signup(request):
             return redirect('home')
     else:
         form = SignUpForm()
-    return render(request, 'benointerest/signup.html', {'form': form})
+    return render(request, 'bleuenoix/signup.html', {'form': form})
 
 
 def deconnexion(request):
@@ -74,7 +74,7 @@ def dislikeMeme(request):
 
 class CreateMeme(CreateView):
     model = Meme
-    template_name = 'benointerest/sendmemes.html'
+    template_name = 'bleuenoix/sendmemes.html'
     form_class = MemeForm
     success_url = reverse_lazy('home')
 
@@ -85,14 +85,14 @@ class CreateMeme(CreateView):
 
 class UpdateProfil(UpdateView):
     model = Profil
-    template_name = 'benointerest/profil.html'
+    template_name = 'bleuenoix/profil.html'
     form_class = ProfilForm
     success_url = reverse_lazy('updateprofile')
 
 
 class UpdateMeme(UpdateView):
     model = Meme
-    template_name = 'benointerest/sendmemes.html'
+    template_name = 'bleuenoix/sendmemes.html'
     form_class = MemeForm
     success_url = reverse_lazy('home')
 
@@ -107,13 +107,13 @@ class UpdateMeme(UpdateView):
 class ListMemes(ListView):
     model = Meme
     context_object_name = "memes"
-    template_name = "benointerest/home.html"
+    template_name = "bleuenoix/home.html"
 
 
 class SeeMeme(DetailView):
     model = Meme
     context_object_name = "meme"
-    template_name = "benointerest/explore.html"
+    template_name = "bleuenoix/explore.html"
 
 
 def sendmemes(request):
@@ -132,4 +132,4 @@ def sendmemes(request):
         Meme(titre=titre, auteur=auteur, image=image).save()
         form.save()
     # Quoiqu'il arrive, on affiche la page du formulaire.
-    return render(request, 'benointerest/sendmemes.html', locals())
+    return render(request, 'bleuenoix/sendmemes.html', locals())

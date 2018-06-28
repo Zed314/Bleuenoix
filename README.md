@@ -16,7 +16,7 @@ To generate the virtual environment of the server, simply use the command :
 
 Then do the migrations
 
-```  python3 manage.py makemigrations && python3 manage.py makemigrations benointerest && python3 manage.py migrate ```
+```  python3 manage.py makemigrations && python3 manage.py makemigrations bleuenoix && python3 manage.py migrate ```
 
 For administration purposes, you can create a super user simply by typing and by filling the form
 
