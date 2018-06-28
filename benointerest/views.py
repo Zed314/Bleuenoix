@@ -13,7 +13,7 @@ from django.http import JsonResponse
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST,request.FILES)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -29,60 +29,65 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'benointerest/signup.html', {'form': form})
 
+
 def deconnexion(request):
     logout(request)
     return redirect(reverse("home"))
 
+
 def likeMeme(request):
     if request.method == 'GET':
-        post_id = request.GET.get('post_id',False)
+        post_id = request.GET.get('post_id', False)
         if post_id == False:
-            return JsonResponse({'ok':False})    
+            return JsonResponse({'ok': False})
         try:
-            likedMeme = Meme.objects.get(id=post_id) #getting the liked posts
+            likedMeme = Meme.objects.get(id=post_id)  # getting the liked posts
         except Meme.DoesNotExist:
-            return JsonResponse({'ok':False}) 
+            return JsonResponse({'ok': False})
         likedMeme.upvoters.add(request.user.profil)
         likedMeme.downvoters.remove(request.user.profil)
         likedMeme.save()  # saving it to store in database
-        return JsonResponse({'ok':True , 'upvotes': likedMeme.upvoters.count() ,'downvotes': likedMeme.downvoters.count()  }) # Sending an success response
- 
+        # Sending an success response
+        return JsonResponse({'ok': True, 'upvotes': likedMeme.upvoters.count(), 'downvotes': likedMeme.downvoters.count()})
+
     else:
-        return JsonResponse({'ok':False}) 
+        return JsonResponse({'ok': False})
 
 
 def dislikeMeme(request):
     if request.method == 'GET':
-        post_id = request.GET.get('post_id',False)
+        post_id = request.GET.get('post_id', False)
         if post_id == False:
-            return JsonResponse({'ok':False})    
+            return JsonResponse({'ok': False})
         try:
-            dislikedMeme = Meme.objects.get(id=post_id) #getting the disliked meme
+            dislikedMeme = Meme.objects.get(
+                id=post_id)  # getting the disliked meme
         except Meme.DoesNotExist:
-            return JsonResponse({'ok':False}) 
+            return JsonResponse({'ok': False})
         dislikedMeme.upvoters.remove(request.user.profil)
         dislikedMeme.downvoters.add(request.user.profil)
         dislikedMeme.save()  # saving it to store in database
-        return JsonResponse({'ok':True , 'upvotes': dislikedMeme.upvoters.count() ,'downvotes': dislikedMeme.downvoters.count()  }) # Sending an success response
+        # Sending an success response
+        return JsonResponse({'ok': True, 'upvotes': dislikedMeme.upvoters.count(), 'downvotes': dislikedMeme.downvoters.count()})
     else:
-        return JsonResponse({'ok':False}) 
+        return JsonResponse({'ok': False})
+
 
 def deleteMeme(request):
     if request.method == 'GET':
-        post_id = request.GET.get('post_id',False)
+        post_id = request.GET.get('post_id', False)
         if not request.user.has_perm("benointerest.delete_meme"):
-            return JsonResponse({'ok':False})  
+            return JsonResponse({'ok': False})
         if post_id == False:
-            return JsonResponse({'ok':False})    
+            return JsonResponse({'ok': False})
         try:
-            memeToDelete = Meme.objects.get(id=post_id) 
+            memeToDelete = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
-            return JsonResponse({'ok':False}) 
+            return JsonResponse({'ok': False})
         memeToDelete.delete()
-        return JsonResponse({'ok':True}) # Sending an success response
+        return JsonResponse({'ok': True})  # Sending an success response
     else:
-        return JsonResponse({'ok':False}) 
-
+        return JsonResponse({'ok': False})
 
 
 class CreateMeme(CreateView):
@@ -93,7 +98,8 @@ class CreateMeme(CreateView):
 
     def form_valid(self, form):
         form.instance.uplauder = self.request.user
-        return super().form_valid(form)    
+        return super().form_valid(form)
+
 
 class UpdateProfil(UpdateView):
     model = Profil
@@ -110,21 +116,24 @@ class UpdateMeme(UpdateView):
 
     def form_valid(self, form):
         if self.request.user != form.instance.uplauder:
-      #      print("nope")
+          #      print("nope")
             return super().form_invalid(form)
-        return super().form_valid(form)    
+        return super().form_valid(form)
      #   success_url = reverse_lazy(seememe)
 # Create your views here.
 
+
 class ListMemes(ListView):
-    model=Meme
-    context_object_name="memes"
-    template_name="benointerest/home.html"
+    model = Meme
+    context_object_name = "memes"
+    template_name = "benointerest/home.html"
+
 
 class SeeMeme(DetailView):
-    model=Meme
-    context_object_name="meme"
-    template_name="benointerest/explore.html"
+    model = Meme
+    context_object_name = "meme"
+    template_name = "benointerest/explore.html"
+
 
 def sendmemes(request):
     # Construire le formulaire, soit avec les données postées,
@@ -132,9 +141,9 @@ def sendmemes(request):
     # à la page.
     form = MemeForm(request.POST or None, request.FILES)
     # Nous vérifions que les données envoyées sont valides
-    # Cette méthode renvoie False s'il n'y a pas de données 
+    # Cette méthode renvoie False s'il n'y a pas de données
     # dans le formulaire ou qu'il contient des erreurs.
-    if form.is_valid(): 
+    if form.is_valid():
         # Ici nous pouvons traiter les données du formulaire
         titre = form.cleaned_data['titre']
         auteur = form.cleaned_data['auteur']
@@ -142,6 +151,6 @@ def sendmemes(request):
         Meme(titre=titre, auteur=auteur, image=image).save()
         form.save()
         envoi = True
-    
+
     # Quoiqu'il arrive, on affiche la page du formulaire.
     return render(request, 'benointerest/sendmemes.html', locals())
