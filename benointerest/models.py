@@ -15,11 +15,9 @@ class Profil(models.Model):
 
 class Meme(models.Model):
     titre = models.CharField(max_length=100)
-    #auteur = models.CharField(max_length=42)
-    uplauder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to="photos/", null=True)
-    date = models.DateTimeField(default=timezone.now, 
-                                verbose_name="Date de parution")
+    date = models.DateTimeField(default=timezone.now, verbose_name="Date of uplaud")
     categorie = models.ForeignKey('Categorie', on_delete=models.SET_NULL, null=True)
     upvoters = models.ManyToManyField(Profil, related_name="upvoters")
     downvoters = models.ManyToManyField(Profil, related_name="downvoters")
@@ -30,7 +28,7 @@ class Meme(models.Model):
     def __str__(self):
         return self.titre
 
-# Create your models here.
+
 class Categorie(models.Model):
     nom = models.CharField(max_length=100)
     class Meta:

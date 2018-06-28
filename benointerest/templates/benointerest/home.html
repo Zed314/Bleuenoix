@@ -1,13 +1,10 @@
- {% extends "base.html" %} {% load static %} {% block title %} LE TITRE DE L'ONGLET {% endblock %} {% block header %} 
+ {% extends "base.html" %} {% load static %}{% block title %}Bleuenoix
+{% endblock %} {% block header %} 
  {%endblock %} {% block content %}
 
 
-<!--<img class="profile-picture" width="75" height="75" style="border-radius:50%"  src="{{user.profil.avatar.url}}"/> -->
-<h1>Benoipedia
-  <span class="lennyface"></span>
-</h1>
-<!-- Hetzner-->
 
+<h1>Bleuenoix</h1>
 
 <div id="grid-wrapper">
   <div id="grid" data-columns>
@@ -16,12 +13,12 @@
 
     <a data-meme-id="{{meme.id}}" 
     
-    {% if user == meme.uplauder %}
+    {% if user == meme.uploader %}
     data-meme-editable="true" 
     {% else %}
     data-meme-editable="false" 
     {% endif %}
-    data-meme-uplauder="{{meme.uplauder}}"
+    data-meme-uploader="{{meme.uploader}}"
     data-meme-upvotes="{{meme.upvoters.count}}"
     data-meme-downvotes="{{meme.downvoters.count}}" 
     data-meme-title="{{meme.titre}}" 
@@ -46,7 +43,7 @@
         <img id="img-modal"> </img>
       </div>
       <div class="modal-footer">
-          <span id="meme-uplauder"></span>
+          <span id="meme-uploader"></span>
           <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
           
         <!--           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
@@ -64,10 +61,6 @@
 <script>
   $(document).ready(function () {
 
-
-    $.get("http://api.lenny.today/v1/random", function (data) {
-      $("span.lennyface").html(data[0].face);
-    });
     $('#memeModal').on('show.bs.modal', function (e) {
 
       //get data-id attribute of the clicked element
@@ -77,7 +70,7 @@
       $(".vote-button").attr("data-meme-id", $(e.relatedTarget).data('meme-id'));
       $('#number-upvotes').text($(e.relatedTarget).data('meme-upvotes'));
       $('#number-downvotes').text($(e.relatedTarget).data('meme-downvotes'));
-      $('#meme-uplauder').text($(e.relatedTarget).data('meme-uplauder'));
+      $('#meme-uploader').text($(e.relatedTarget).data('meme-uploader'));
       $('#edit-button').attr("href", "updatememe/"+ $(e.relatedTarget).data('meme-id'));
       console.log($(e.relatedTarget).data('meme-editable'));
       if($(e.relatedTarget).data('meme-editable') == true)
