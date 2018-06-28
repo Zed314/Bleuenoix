@@ -19,7 +19,7 @@ urlpatterns = [
     path(
         "login",
         auth_views.login,
-        {"template_name": "benointerest/login.html"},
+        {"template_name": "bleuenoix/login.html"},
         name="login",
     ),
     path("logout", auth_views.logout, {"next_page": "/memes"}, name="logout"),
