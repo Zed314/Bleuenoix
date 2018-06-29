@@ -29,3 +29,13 @@ Then to run the server
 ```  source env/bin/activate && python3 manage.py runserver ```
 
 To exit simply press Ctrl-C and type ``` deactivate```
+
+#Addtional installation
+
+I recommand the usage of pylint-django to write code. To install it, simply run the command:
+
+``` pip install pylint-django ```
+
+And if you use VSCode, add this to your seetings:
+
+```"python.linting.pylintArgs": ["--load-plugins=pylint_django"],```
