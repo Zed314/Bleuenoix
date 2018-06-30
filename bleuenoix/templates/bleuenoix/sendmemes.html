@@ -1,106 +1,78 @@
-{% extends "base.html" %} 
-{% load static %}
-{% block header %} 
+{% extends "base.html" %} {% load static %} {% block header %}
 <link rel="stylesheet" type="text/css" href="{% static 'bleuenoix/style.css' %}" />
 <style>
-    @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
-@import url("https://fonts.googleapis.com/css?family=Raleway");
+  @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+  @import url("https://fonts.googleapis.com/css?family=Raleway");
 </style>
-{% endblock %}
-
-{% block content %} 
+{% endblock %} {% block content %}
 
 
-  <script>
-    
-    function initImageUpload(box) {
+<script>
+
+  function initImageUpload(box) {
     let uploadField = box.querySelector('.image-upload');
-  
+
     uploadField.addEventListener('change', getFile);
-  
-    function getFile(e){
+
+    function getFile(e) {
       let file = e.currentTarget.files[0];
       checkType(file);
     }
-    
-    function previewImage(file){
+
+    function previewImage(file) {
       let thumb = box.querySelector('.js--image-preview'),
-          reader = new FileReader();
-  
-      reader.onload = function() {
+        reader = new FileReader();
+
+      reader.onload = function () {
         thumb.style.backgroundImage = 'url(' + reader.result + ')';
       }
       reader.readAsDataURL(file);
       thumb.className += ' js--no-default';
     }
-  
-    function checkType(file){
+
+    function checkType(file) {
       let imageType = /image.*/;
       if (!file.type.match(imageType)) {
         throw 'The file is not an image';
-      } else if (!file){
+      } else if (!file) {
         throw 'You choose no image…';
       } else {
         previewImage(file);
       }
     }
-    
-  }
-  
-  // initialize box-scope
-  $(function() {var box = document.getElementById('uplaudbox');
-  
-    initImageUpload(box);
-});
-  
 
-  
-  
-    
-  
-  </script>
-  <form enctype="multipart/form-data" action="" method="post">
-    {% csrf_token %}
-  
-{{form.as_p }}
+  }
+
+  // initialize box-scope
+  $(function () {
+    var box = document.getElementById('uplaudbox');
+
+    initImageUpload(box);
+  });
+
+</script>
+
+<form enctype="multipart/form-data" action="" method="post">
+  {% csrf_token %} {% for hidden_field in form.hidden_fields %} {{ hidden_field.errors }} {{ hidden_field }} {% endfor %}
+
+  <div class="form-group">
+    {{form.titre}}
+
+    <div width="20px" id="uplaudbox">
+      <div class="js--image-preview"></div>
+      <div class="upload-options">
+        <label>
+          <input name="image" id="id_image" type="file" class="image-upload" accept="image/*" />
+        </label>
+      </div>
+    </div>
+
+
+    {{form.categorie}}
+
+  </div>
   <input type="submit" value="Submit" />
 </form>
 
-<form enctype="multipart/form-data" action="" method="post">
-    {% csrf_token %}
-   
-
-  {% for hidden_field in form.hidden_fields %}
-    {{ hidden_field.errors }}
-    {{ hidden_field }}
-  {% endfor %}
-
-  <div class="form-group">
-      {{form.titre}}
-   
-      <div width="20px" id="uplaudbox">
-          <div class="js--image-preview"></div>
-          <div class="upload-options">
-            <label>
-              <input  name="image" id="id_image"  type="file" class="image-upload" accept="image/*" />
-            </label>
-          </div>
-        </div>
-  
-
-      {{form.categorie}}
-
-  </div>
-    <input type="submit" value="Submit" />
-</form>
-
-{% endblock %} 
-{% for field in form.visible_fields %}
-    
-{{ field.label_tag }}
-{{ field.errors }}
-{{ field }}
-{{ field.help_text }}
-
-
-{% endfor %}
+{% endblock %} {% for field in form.visible_fields %} {{ field.label_tag }} {{ field.errors }}
+ {{ field }} {{ field.help_text}} {% endfor %}
