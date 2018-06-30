@@ -5,7 +5,6 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import ListMemes
 
-
 urlpatterns = [
     path("", login_required(ListMemes.as_view()), name="home"),
     path("signup", views.signup, name="signup"),
