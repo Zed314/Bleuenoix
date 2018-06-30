@@ -88,7 +88,7 @@ class UpdateProfil(UpdateView):
     model = Profil
     template_name = 'bleuenoix/profil.html'
     form_class = ProfilForm
-    success_url = reverse_lazy('updateprofile')
+    success_url = reverse_lazy('home')
 
 
 class UpdateMeme(UpdateView):
