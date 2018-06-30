@@ -21,5 +21,5 @@ class ProfilForm(forms.ModelForm):
 class MemeForm(forms.ModelForm):
     class Meta:
         model = Meme
-        exclude = ('date','auteur', 'uplauder', 'upvoters', 'downvoters')
+        exclude = ('date','auteur', 'uploader', 'upvoters', 'downvoters')
 

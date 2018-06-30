@@ -6,9 +6,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 
-from .forms import MemeForm, ProfilForm, SignUpForm
 from .models import Meme, Profil
 
+
+from .forms import MemeForm, ProfilForm, SignUpForm
 
 def signup(request):
     if request.method == 'POST':

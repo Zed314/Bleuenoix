@@ -17,7 +17,7 @@ class Meme(models.Model):
     titre = models.CharField(max_length=100)
     uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to="photos/", null=True)
-    date = models.DateTimeField(default=timezone.now, verbose_name="Date of uplaud")
+    date = models.DateTimeField(default=timezone.now, verbose_name="Date of upload")
     categorie = models.ForeignKey('Categorie', on_delete=models.SET_NULL, null=True)
     upvoters = models.ManyToManyField(Profil, related_name="upvoters")
     downvoters = models.ManyToManyField(Profil, related_name="downvoters")
