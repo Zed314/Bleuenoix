@@ -8,7 +8,7 @@ Bleuenoix is a website made to share godtier memes with users.
 
 This project is based on Django 2.0.6 and on Pillow.
 
-# Run Server
+# Install and Run Server
 
 To generate the virtual environment of the server, simply use the command :
 
@@ -30,7 +30,7 @@ Then to run the server
 
 To exit simply press Ctrl-C and type ``` deactivate```
 
-#Addtional installation
+# Addtional installation
 
 I recommand the usage of pylint-django to write code. To install it, simply run the command:
 
