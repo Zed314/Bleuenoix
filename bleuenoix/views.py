@@ -18,8 +18,7 @@ def create_profile(sender,**kwargs ):
         user = kwargs['instance']
         if not hasattr(user, 'profile'):
             p = Profil()
-            p.user = user
-            p.save()
+            user.profile = p
 
 
 post_save.connect(create_profile, sender=User)
