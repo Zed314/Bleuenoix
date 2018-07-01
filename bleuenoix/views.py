@@ -19,6 +19,7 @@ def create_profile(sender,**kwargs ):
         if not hasattr(user, 'profile'):
             p = Profil()
             user.profile = p
+            p.save()
 
 
 post_save.connect(create_profile, sender=User)
@@ -31,7 +32,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            profile = Profil()
+            profile = user.profile
             profile.avatar = form.cleaned_data.get('avatar')
             profile.user = user
             profile.save()
