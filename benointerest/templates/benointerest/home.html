@@ -1,0 +1,146 @@
+ {% extends "base.html" %} {% load static %} {% block title %} LE TITRE DE L'ONGLET {% endblock %} {% block header %} 
+ {%endblock %} {% block content %}
+
+
+<!--<img class="profile-picture" width="75" height="75" style="border-radius:50%"  src="{{user.profil.avatar.url}}"/> -->
+<h1>Benoipedia
+  <span class="lennyface"></span>
+</h1>
+<!-- Hetzner-->
+
+
+<div id="grid-wrapper">
+  <div id="grid" data-columns>
+
+    {% for meme in memes %}
+
+    <a data-meme-id="{{meme.id}}" 
+    
+    {% if user == meme.uplauder %}
+    data-meme-editable="true" 
+    {% else %}
+    data-meme-editable="false" 
+    {% endif %}
+    data-meme-uplauder="{{meme.uplauder}}"
+    data-meme-upvotes="{{meme.upvoters.count}}"
+    data-meme-downvotes="{{meme.downvoters.count}}" 
+    data-meme-title="{{meme.titre}}" 
+    data-meme-url="{{meme.image.url}}" class="modal-opener" data-toggle="modal" data-target="#memeModal">
+      <div class="center-cropped" style="background-image: url({{meme.image.url}});"></div>
+    </a>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="memeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <img id="img-modal"> </img>
+      </div>
+      <div class="modal-footer">
+          <span id="meme-uplauder"></span>
+          <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
+          
+        <!--           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button id="like-button" data-appreciation="like" data-meme-id="" type="button" class="btn btn-primary btn-success vote-button">
+          Upvote (<span id="number-upvotes"></span>)</button>
+        <button id="dislike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
+          Downvote (<span id="number-downvotes"></span>)</button>
+          {% if perms.benointerest.delete_meme %}
+          <button id="delete-button" data-meme-id="" type="button" class="btn btn-primary btn-danger">
+            DELETE</button>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="{% static 'benointerest/savatorre.js' %}"></script>
+<script>
+  $(document).ready(function () {
+
+
+    $.get("http://api.lenny.today/v1/random", function (data) {
+      $("span.lennyface").html(data[0].face);
+    });
+    $('#memeModal').on('show.bs.modal', function (e) {
+
+      //get data-id attribute of the clicked element
+      $("#modal-title").text($(e.relatedTarget).data('meme-title'));
+      //populate the textboxe.currentTarget).find('#inside').val($(e.relatedTarget).data('meme-id'));
+      $("#img-modal").attr("src", $(e.relatedTarget).data('meme-url'));
+      $(".vote-button").attr("data-meme-id", $(e.relatedTarget).data('meme-id'));
+      $("#delete-button").attr("data-meme-id", $(e.relatedTarget).data('meme-id'));
+      $('#number-upvotes').text($(e.relatedTarget).data('meme-upvotes'));
+      $('#number-downvotes').text($(e.relatedTarget).data('meme-downvotes'));
+      $('#meme-uplauder').text($(e.relatedTarget).data('meme-uplauder'));
+      $('#edit-button').attr("href", "updatememe/"+ $(e.relatedTarget).data('meme-id'));
+      console.log($(e.relatedTarget).data('meme-editable'));
+      if($(e.relatedTarget).data('meme-editable') == true)
+      {
+        $('#edit-button').show();
+      }
+      else
+      {
+        $('#edit-button').hide();
+      }
+    });
+   
+      
+
+    $('.vote-button').click(function () {
+      var memeid = $(this).data('meme-id');
+      var appreciation = $(this).data('appreciation');
+      $.ajax(
+        {
+          type: "GET",
+          url: "/memes/" + appreciation + "meme",
+          data: {
+            post_id: memeid
+          },
+          success: function (data) {
+            if (data.ok === false) {
+              alert("Fail" + appreciation);
+              return;
+            }
+            $('#number-upvotes').text(data.upvotes);
+            $('#number-downvotes').text(data.downvotes);
+
+            $("[data-meme-id="+memeid+"]").data("meme-upvotes",data.upvotes);
+            $("[data-meme-id="+memeid+"]").data("meme-downvotes",data.downvotes);
+            /*  $( '#like'+ catid ).remove();
+              $( '#message' ).text(data);*/
+          }
+        })
+    });
+    $('#delete-button').click(function () {
+      var memeid = $(this).data('meme-id');
+      $.ajax(
+        {
+          type: "GET",
+          url: "/memes/deletememe",
+          data: {
+            post_id: memeid
+          },
+          success: function (data) {
+            if (data.ok === false) {
+              alert("Fail" + appreciation);
+              return;
+            }
+            alert("deleted");
+            /*  $( '#like'+ catid ).remove();
+              $( '#message' ).text(data);*/
+          }
+        })
+    });
+  });
+</script> {% endblock %}
