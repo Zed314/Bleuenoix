@@ -6,7 +6,7 @@ Bleuenoix is a website made to share godtier memes with users.
 
 # Prerequisites
 
-This project is based on Django 2.0.6 and on Pillow.
+This project is based on Django 2.0.6 and on Pillow. Thus, it requires Python3 and pip3 (python3-pip).
 
 # Install and Run Server
 
