@@ -1,4 +1,3 @@
-alert("ppp");
 $(document).ready(function () {
 
     $('#memeModal').on('show.bs.modal', function (e) {
