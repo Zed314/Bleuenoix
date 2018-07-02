@@ -81,34 +81,35 @@
       {
         $('#edit-button').hide();
       }
+      $('.vote-button').click(function () {
+        var memeid = $(this).data('meme-id');
+        var appreciation = $(this).data('appreciation');
+        $.ajax(
+          {
+            type: "GET",
+            url: "/memes/" + appreciation + "meme",
+            data: {
+              post_id: memeid
+            },
+            success: function (data) {
+              if (data.ok === false) {
+                alert("Fail" + appreciation);
+                return;
+              }
+              $('#number-upvotes').text(data.upvotes);
+              $('#number-downvotes').text(data.downvotes);
+  
+              $("[data-meme-id="+memeid+"]").data("meme-upvotes",data.upvotes);
+              $("[data-meme-id="+memeid+"]").data("meme-downvotes",data.downvotes);
+              /*  $( '#like'+ catid ).remove();
+                $( '#message' ).text(data);*/
+            }
+          })
+      });
     });
    
       
 
-    $('.vote-button').click(function () {
-      var memeid = $(this).data('meme-id');
-      var appreciation = $(this).data('appreciation');
-      $.ajax(
-        {
-          type: "GET",
-          url: "/memes/" + appreciation + "meme",
-          data: {
-            post_id: memeid
-          },
-          success: function (data) {
-            if (data.ok === false) {
-              alert("Fail" + appreciation);
-              return;
-            }
-            $('#number-upvotes').text(data.upvotes);
-            $('#number-downvotes').text(data.downvotes);
-
-            $("[data-meme-id="+memeid+"]").data("meme-upvotes",data.upvotes);
-            $("[data-meme-id="+memeid+"]").data("meme-downvotes",data.downvotes);
-            /*  $( '#like'+ catid ).remove();
-              $( '#message' ).text(data);*/
-          }
-        })
-    });
+ 
   });
 </script> {% endblock %}
