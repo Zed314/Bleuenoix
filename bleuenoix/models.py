@@ -10,8 +10,8 @@ class Profil(models.Model):
     avatar = models.ImageField(null=False, blank=False, upload_to="avatars/", default='bleuenoix/profile_default.png') 
     #email_confirmed = models.BooleanField(default=False)
 
-   # def __str__(self):
-   #     return "Profil de {0}".format(self.user.username)
+    def __str__(self):
+        return "Profil de {0}".format(self.user.username)
 
 class Meme(models.Model):
     titre = models.CharField(max_length=100)
