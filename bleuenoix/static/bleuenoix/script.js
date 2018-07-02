@@ -1,5 +1,7 @@
+
 $(document).ready(function () {
 
+ 
     $('#memeModal').on('show.bs.modal', function (e) {
 
       //get data-id attribute of the clicked element
@@ -22,12 +24,31 @@ $(document).ready(function () {
       }
       $('.vote-button').unbind();
       $(".vote-button").click({memeid: $(e.relatedTarget).data('meme-id')}, votefunction);
-    
+      $('#delete-button').click({memeid: $(e.relatedTarget).data('meme-id')}, deletefunction);
     });
   
+    function deletefunction(event){
+      var memeid = event.data.memeid;
+      $.ajax(
+        {
+          type: "GET",
+          url: "/memes/deletememe",
+          data: {
+            post_id: memeid
+          },
+          success: function (data) {
+            if (data.ok === false) {
+              alert("Fail" + appreciation);
+              return;
+            }
+            $("[data-meme-id="+memeid+"]").remove();
+            salvattore.recreateColumns(document.querySelector('#grid'));
+            $('#memeModal').modal('toggle');
+          }
+        })
+    }
     function votefunction (event) {
       var memeid = event.data.memeid;
-
       var appreciation = $(this).data('appreciation');
       $.ajax(
         {
