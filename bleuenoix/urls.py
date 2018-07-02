@@ -1,11 +1,10 @@
 from django.urls import path
 
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import sendmemes, ListMemes, SeeMeme, likeMeme, dislikeMeme, signup, deleteMeme
-from .models import Meme
+from .views import ListMemes
+
 
 urlpatterns = [
     path("", login_required(ListMemes.as_view()), name="home"),
@@ -20,7 +19,7 @@ urlpatterns = [
     path(
         "login",
         auth_views.login,
-        {"template_name": "benointerest/login.html"},
+        {"template_name": "bleuenoix/login.html"},
         name="login",
     ),
     path("logout", auth_views.logout, {"next_page": "/memes"}, name="logout"),

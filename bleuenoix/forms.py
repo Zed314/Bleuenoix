@@ -10,7 +10,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = (  'username' , 'avatar' ,'email', 'password1', 'password2')
+        fields = ( 'username', 'avatar', 'email', 'password1', 'password2')
 
 class ProfilForm(forms.ModelForm):
     class Meta:
@@ -21,4 +21,4 @@ class ProfilForm(forms.ModelForm):
 class MemeForm(forms.ModelForm):
     class Meta:
         model = Meme
-        exclude = ('date','auteur', 'uplauder', 'upvoters', 'downvoters')
+        exclude = ('date','auteur', 'uploader', 'upvoters', 'downvoters')

@@ -1,0 +1,60 @@
+ {% extends "base.html" %} {% load static %}{% block title %}Bleuenoix
+{% endblock %} {% block header %} 
+
+<script src="{% static 'bleuenoix/savatorre.js' %}"></script>
+ {%endblock %} {% block content %}
+
+<h1>Bleuenoix</h1>
+
+<div id="grid-wrapper">
+  <div id="grid" data-columns>
+
+    {% for meme in memes %}
+
+    <a data-meme-id="{{meme.id}}" 
+    
+    {% if user == meme.uploader %}
+    data-meme-editable="true" 
+    {% else %}
+    data-meme-editable="false" 
+    {% endif %}
+    data-meme-uploader="{{meme.uploader}}"
+    data-meme-upvotes="{{meme.upvoters.count}}"
+    data-meme-downvotes="{{meme.downvoters.count}}" 
+    data-meme-title="{{meme.titre}}" 
+    data-meme-url="{{meme.image.url}}" class="modal-opener" data-toggle="modal" data-target="#memeModal">
+      <div class="center-cropped" style="background-image: url({{meme.image.url}});"></div>
+    </a>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="memeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <img id="img-modal"> </img>
+      </div>
+      <div class="modal-footer">
+          <span id="meme-uploader"></span>
+          <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
+          
+        <!--           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button id="like-button" data-appreciation="like" data-meme-id="" type="button" class="btn btn-primary btn-success vote-button">
+          Upvote (<span id="number-upvotes"></span>)</button>
+        <button id="dilike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
+          Downvote (<span id="number-downvotes"></span>)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

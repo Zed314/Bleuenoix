@@ -24,7 +24,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('memes/', include('benointerest.urls')),
+    path('memes/', include('bleuenoix.urls')),
     path('',  RedirectView.as_view(pattern_name='home', permanent=False)),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

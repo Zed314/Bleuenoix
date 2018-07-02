@@ -6,37 +6,33 @@ from django.conf import settings
 # Create your models here.
 
 class Profil(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)  # La liaison OneToOne vers le modèle User
-    avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
+    user = models.OneToOneField(User, on_delete = models.CASCADE, related_name='profile')
+    avatar = models.ImageField(null=False, blank=False, upload_to="avatars/", default='bleuenoix/profile_default.png') 
     #email_confirmed = models.BooleanField(default=False)
 
-   # def __str__(self):
-   #     return "Profil de {0}".format(self.user.username)
+    def __str__(self):
+        return "Profil de {0}".format(self.user.username)
 
 class Meme(models.Model):
     titre = models.CharField(max_length=100)
-    #auteur = models.CharField(max_length=42)
-    uplauder = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
-    image = models.ImageField(upload_to="photos/", null=True)
-    date = models.DateTimeField(default=timezone.now, 
-                                verbose_name="Date de parution")
-    categorie = models.ForeignKey('Categorie', on_delete=models.SET_NULL, null=True)
+    uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(upload_to="photos/", null=False)
+    date = models.DateTimeField(default=timezone.now, verbose_name="Date of upload")
+    categorie = models.ForeignKey('Categorie', on_delete=models.SET_NULL, null=True, blank=True)
     upvoters = models.ManyToManyField(Profil, related_name="upvoters")
     downvoters = models.ManyToManyField(Profil, related_name="downvoters")
     class Meta:
         verbose_name = "meme"
         ordering = ['date']
-    
     def __str__(self):
         return self.titre
 
-# Create your models here.
+
 class Categorie(models.Model):
     nom = models.CharField(max_length=100)
     class Meta:
         verbose_name = "categorie"
         ordering = ['nom']
-    
     def __str__(self):
         return self.nom
         
