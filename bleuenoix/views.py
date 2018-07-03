@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.core import serializers
 
 from .models import Meme, Profil
 
@@ -83,6 +84,13 @@ def dislikeMeme(request):
         dislikedMeme.save()  # saving it to store in database
         # Sending an success response
         return JsonResponse({'ok': True, 'upvotes': dislikedMeme.upvoters.count(), 'downvotes': dislikedMeme.downvoters.count()})
+    else:
+        return JsonResponse({'ok': False})
+
+def getAllMemes(request):
+    if request.method == 'GET':
+   #     return JsonResponse({'ok': True, 'memes': list(Meme.objects.all())})
+        return JsonResponse({'ok': True, 'memes': serializers.serialize('json', Meme.objects.all())})
     else:
         return JsonResponse({'ok': False})
 
