@@ -6,7 +6,6 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from django.core import serializers
 
 from .models import Meme, Profil
 
