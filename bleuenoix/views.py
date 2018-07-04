@@ -55,13 +55,12 @@ def likeMeme(request):
         if post_id == False:
             return JsonResponse({'ok': False})
         try:
-            likedMeme = Meme.objects.get(id=post_id)  # getting the liked posts
+            likedMeme = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
         likedMeme.upvoters.add(request.user.profile)
         likedMeme.downvoters.remove(request.user.profile)
-        likedMeme.save()  # saving it to store in database
-        # Sending an success response
+        likedMeme.save()
         return JsonResponse({'ok': True, 'upvotes': likedMeme.upvoters.count(), 'downvotes': likedMeme.downvoters.count()})
 
     else:
@@ -74,28 +73,26 @@ def dislikeMeme(request):
         if not post_id:
             return JsonResponse({'ok': False})
         try:
-            dislikedMeme = Meme.objects.get(
-                id=post_id)  # getting the liked posts
+            dislikedMeme = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
         dislikedMeme.upvoters.remove(request.user.profile)
         dislikedMeme.downvoters.add(request.user.profile)
-        dislikedMeme.save()  # saving it to store in database
-        # Sending an success response
+        dislikedMeme.save()
         return JsonResponse({'ok': True, 'upvotes': dislikedMeme.upvoters.count(), 'downvotes': dislikedMeme.downvoters.count()})
     else:
         return JsonResponse({'ok': False})
 
 def getAllMemes(request):
     if request.method == 'GET':
-   #     return JsonResponse({'ok': True, 'memes': list(Meme.objects.all())})
         memeArray=[]
         memeDict = {}
         for meme in Meme.objects.all():
             memeId = meme.id
             title = meme.titre
             image = meme.image.url
-            editable = request.user == meme.uploader
+            editable = request.user == meme.uploader or request.user.has_perm('bleuenoix.change_meme')
+            deletable  = request.user == meme.uploader or request.user.has_perm('bleuenoix.delete_meme')
             if meme.categorie:
                 category = meme.categorie.nom
             else:
@@ -106,9 +103,8 @@ def getAllMemes(request):
                 uploader = ""
             upvoters = meme.upvoters.count()
             downvoters = meme.downvoters.count()
-            record = {"id":memeId, "title":title,"image":image,"editable":editable,"category":category,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
+            record = {"id":memeId, "title":title,"image":image,"editable":editable,"deletable":deletable,"category":category,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
             memeArray.append(record)
-        #return JsonResponse({'ok': True, 'memes': serializers.serialize('json', memeArray)})
         memeDict["memes"]=memeArray
         return JsonResponse(memeDict)
     else:
@@ -157,11 +153,9 @@ class UpdateMeme(UpdateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        if self.request.user != form.instance.uploader:
+        if self.request.user != form.instance.uploader and not self.request.user.has_perm('bleuenoix.change_meme'):
             return super().form_invalid(form)
         return super().form_valid(form)
-     #   success_url = reverse_lazy(seememe)
-# Create your views here.
 
 
 class ListMemes(ListView):

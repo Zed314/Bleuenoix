@@ -21,6 +21,7 @@ $(document).ready(function () {
             "data-meme-title": value.title,
             "data-meme-url": value.image,
             "data-meme-editable": value.editable,
+            "data-meme-deletable": value.deletable,
             "class": "modal-opener",
             "data-toggle": "modal",
             "data-target": "#memeModal"
@@ -50,12 +51,22 @@ $(document).ready(function () {
       $('#meme-uploader').text($(e.relatedTarget).data('meme-uploader'));
       $('#meme-category').text($(e.relatedTarget).data('meme-category'));
       $('#edit-button').attr("href", "updatememe/" + $(e.relatedTarget).data('meme-id'));
+      $('#delete-button').attr("href", "deletememe/" + $(e.relatedTarget).data('meme-id'));
 
-      if ($(e.relatedTarget).data('meme-editable') == true) {
+      if ($(e.relatedTarget).data('meme-editable') === true) {
         $('#edit-button').show();
       }
       else {
         $('#edit-button').hide();
+       
+      }
+      if ($(e.relatedTarget).data('meme-deletable') === true) {
+        $('#delete-button').show();
+  
+      }
+      else {
+        $('#delete-button').hide();
+      
       }
       $('.vote-button').unbind();
       $(".vote-button").click({ memeid: $(e.relatedTarget).data('meme-id') }, votefunction);
