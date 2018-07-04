@@ -96,11 +96,11 @@ def getAllMemes(request):
             title = meme.titre
             image = meme.image.url
             editable = request.user == meme.uploader
-            category = meme.categorie
+           # category = meme.categorie    
             uploader = meme.uploader.username
             upvoters = meme.upvoters.count()
             downvoters = meme.downvoters.count()
-            record = {"id":memeId, "title":title,"image":image,"editable":editable,"category":category,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
+            record = {"id":memeId, "title":title,"image":image,"editable":editable,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
             memeArray.append(record)
         #return JsonResponse({'ok': True, 'memes': serializers.serialize('json', memeArray)})
         memeDict["memes"]=memeArray
