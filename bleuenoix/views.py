@@ -86,18 +86,41 @@ def dislikeMeme(request):
     else:
         return JsonResponse({'ok': False})
 
+def getAllMemes(request):
+    if request.method == 'GET':
+   #     return JsonResponse({'ok': True, 'memes': list(Meme.objects.all())})
+        memeArray=[]
+        memeDict = {}
+        for meme in Meme.objects.all():
+            memeId = meme.id
+            title = meme.titre
+            image = meme.image.url
+            editable = request.user == meme.uploader
+            category = meme.categorie
+            uploader = meme.uploader.username
+            upvoters = meme.upvoters.count()
+            downvoters = meme.downvoters.count()
+            record = {"id":memeId, "title":title,"image":image,"editable":editable,"category":category,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
+            memeArray.append(record)
+        #return JsonResponse({'ok': True, 'memes': serializers.serialize('json', memeArray)})
+        memeDict["memes"]=memeArray
+        return JsonResponse(memeDict)
+    else:
+        return JsonResponse({'ok': False})
+
 
 def deleteMeme(request):
     if request.method == 'GET':
         post_id = request.GET.get('post_id', False)
-        if not request.user.has_perm("benointerest.delete_meme"):
-            return JsonResponse({'ok': False})
         if post_id == False:
             return JsonResponse({'ok': False})
         try:
             memeToDelete = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
+        if not request.user.has_perm("bleuenoix.delete_meme") and not (request.user == memeToDelete.uploader):
+            return JsonResponse({'ok': False})
+
         memeToDelete.delete()
         return JsonResponse({'ok': True})  # Sending an success response
     else:
