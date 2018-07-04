@@ -6,34 +6,10 @@
 
 <h1>Bleuenoix</h1>
 
-    {% for meme in memes %}
-
-    <a data-meme-id="{{meme.id}}" 
-    
-    {% if user == meme.uploader %}
-    data-meme-editable="true" 
-    {% else %}
-    data-meme-editable="false" 
-    {% endif %}
-    data-meme-uploader="{{meme.uploader}}"
-    data-meme-upvotes="{{meme.upvoters.count}}"
-    data-meme-downvotes="{{meme.downvoters.count}}" 
-    data-meme-title="{{meme.titre}}" 
-    data-meme-url="{{meme.image.url}}" class="modal-opener" data-toggle="modal" data-target="#memeModal">
-      <div class="center-cropped" style="background-image: url({{meme.image.url}});"></div>
-    </a>
-
-    {% endfor %}
-
 <div id="grid-wrapper">
   <div id="grid" data-columns>
-
-
   </div>
-
 </div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="memeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
