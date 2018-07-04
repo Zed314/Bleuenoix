@@ -17,6 +17,7 @@ $(document).ready(function () {
             "data-meme-uploader": value.uploader,
             "data-meme-upvotes": value.upvoters,
             "data-meme-downvotes": value.downvoters,
+            "data-meme-category": value.category,
             "data-meme-title": value.title,
             "data-meme-url": value.image,
             "data-meme-editable": value.editable,
@@ -47,6 +48,7 @@ $(document).ready(function () {
       console.log($(e.relatedTarget).data());
       $('#number-downvotes').text($(e.relatedTarget).data('meme-downvotes'));
       $('#meme-uploader').text($(e.relatedTarget).data('meme-uploader'));
+      $('#meme-category').text($(e.relatedTarget).data('meme-category'));
       $('#edit-button').attr("href", "updatememe/" + $(e.relatedTarget).data('meme-id'));
 
       if ($(e.relatedTarget).data('meme-editable') == true) {
