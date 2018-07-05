@@ -89,12 +89,12 @@ def getAllMemes(request):
         memeDict = {}
         for meme in Meme.objects.all():
             memeId = meme.id
-            title = meme.titre
+            title = meme.title
             image = meme.image.url
             editable = request.user == meme.uploader or request.user.has_perm('bleuenoix.change_meme')
             deletable  = request.user == meme.uploader or request.user.has_perm('bleuenoix.delete_meme')
             if meme.category:
-                category = meme.category.nom
+                category = meme.category.name
             else:
                 category = ""
             if meme.uploader:
@@ -180,10 +180,10 @@ def sendmemes(request):
     # dans le formulaire ou qu'il contient des erreurs.
     if form.is_valid():
         # Ici nous pouvons traiter les données du formulaire
-        titre = form.cleaned_data['titre']
+        title = form.cleaned_data['title']
         auteur = form.cleaned_data['auteur']
         image = form.cleaned_data["image"]
-        Meme(titre=titre, auteur=auteur, image=image).save()
+        Meme(title=title, auteur=auteur, image=image).save()
         form.save()
     # Quoiqu'il arrive, on affiche la page du formulaire.
     return render(request, 'bleuenoix/sendmemes.html', locals())
