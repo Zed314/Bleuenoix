@@ -93,8 +93,8 @@ def getAllMemes(request):
             image = meme.image.url
             editable = request.user == meme.uploader or request.user.has_perm('bleuenoix.change_meme')
             deletable  = request.user == meme.uploader or request.user.has_perm('bleuenoix.delete_meme')
-            if meme.categorie:
-                category = meme.categorie.nom
+            if meme.category:
+                category = meme.category.nom
             else:
                 category = ""
             if meme.uploader:

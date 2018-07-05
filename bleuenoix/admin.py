@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import Meme, Categorie, Profil
+from .models import Meme, Category, Profil
 
-admin.site.register(Categorie)
+admin.site.register(Category)
 admin.site.register(Meme)
 admin.site.register(Profil)
