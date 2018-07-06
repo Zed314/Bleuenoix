@@ -1,3 +1,34 @@
+
+/* The overlay effect - lays on top of the container and over the image */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+.above-overlay {
+  position: absolute;
+  top: 0px;
+  bottom: 50px;
+  width: 100%; 
+}
+.container-overlay {
+  position: relative;
+}
+/* When you mouse over the container, fade in the overlay title */
+.container-overlay:hover .overlay {
+  opacity: 1;
+}
+
 .form-signup
 {
   width: 100%;
@@ -34,7 +65,7 @@ html {
 
 
 #grid[data-columns]::before {
-	content: '3 .column.size-1of3';
+	content: '3 .column.size-1of3.container-overlay';
 }
 .column { float: left; }
 .size-1of3 { width: 33.333%; }
@@ -43,18 +74,18 @@ html {
 .size-1of1 { width: 100%; }
 @media screen and (max-width: 480px){
 	#grid[data-columns]::before {
-		content: '1 .column.size-1of1';
+		content: '1 .column.size-1of1.container-overlay';
 	}
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
 	#grid[data-columns]::before {
-		content: '2 .column.size-1of2';
+		content: '2 .column.size-1of2.container-overlay';
 	}
 }
 @media screen and (min-width: 769px) {
 	#grid[data-columns]::before {
-		content: '3 .column.size-1of3';
+		content: '3 .column.size-1of3.container-overlay';
 	}
 }
 #grid-wrapper {

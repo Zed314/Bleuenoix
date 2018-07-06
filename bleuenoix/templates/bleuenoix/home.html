@@ -17,12 +17,18 @@
     <div class="modal-content">
 
       <div class="modal-body">
-        <img id="img-modal"> </img>
+        <div class="container-overlay">
+        <img id="img-modal" />
+        <div class="overlay">
+            Uploader : <span id="meme-uploader"></span>
+          Category : <span id="meme-category"></span>
+
+        </div>
+        </div>
+        
       </div>
       <div class="modal-footer">
-          Uploader : <span id="meme-uploader"></span>
-          Category : <span id="meme-category"></span>
-          <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
+                  <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
           <button id="like-button" data-appreciation="like" data-meme-id="" type="button" class="btn btn-primary btn-success vote-button">
           Upvote (<span id="number-upvotes"></span>)</button>
           <button id="dilike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
