@@ -24,10 +24,6 @@
 .container-overlay {
   position: relative;
 }
-/* When you mouse over the container, fade in the overlay title */
-/*.container-overlay:hover .overlay {
-  opacity: 1;
-}*/
 
 .center-cropped:hover .overlay {
   opacity: 1;

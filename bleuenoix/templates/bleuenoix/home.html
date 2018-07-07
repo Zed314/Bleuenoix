@@ -1,8 +1,6 @@
- {% extends "base.html" %} {% load static %}{% block title %}Bleuenoix
-{% endblock %} {% block header %} 
+ {% extends "base.html" %} {% load static %}{% block title %}Bleuenoix {% endblock %} {% block header %}
 
-<script src="{% static 'bleuenoix/script.js' %}"></script>
- {%endblock %} {% block content %}
+<script src="{% static 'bleuenoix/script.js' %}"></script> {%endblock %} {% block content %}
 
 <h1>Bleuenoix</h1>
 
@@ -18,30 +16,31 @@
 
       <div class="modal-body">
         <div class="container-overlay">
-        <img id="img-modal" />
-        <div class="overlay">
-            Uploader : <span id="meme-uploader"></span>
-          Category : <span id="meme-category"></span>
+          <img id="img-modal" />
+          <div class="overlay">
+            Uploader :
+            <span id="meme-uploader"></span>
+            Category :
+            <span id="meme-category"></span>
+          </div>
+        </div>
 
-        </div>
-        </div>
-        
       </div>
       <div class="modal-footer">
-                  <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
-          <button id="like-button" data-appreciation="like" data-meme-id="" type="button" class="btn btn-primary btn-success vote-button">
-          Upvote (<span id="number-upvotes"></span>)</button>
-          <button id="dilike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
-          Downvote (<span id="number-downvotes"></span>)</button>
-      
-          <button id="delete-button" data-meme-id="" type="button" class="btn btn-primary btn-danger">
-            DELETE</button>
-          
+        <a id="edit-button" class="btn btn-secondary" href="" role="button">Edit</a>
+        <button id="like-button" data-appreciation="like" data-meme-id="" type="button" class="btn btn-primary btn-success vote-button">
+          Upvote (
+          <span id="number-upvotes"></span>)</button>
+        <button id="dilike-button" data-appreciation="dislike" data-meme-id="" type="button" class="btn btn-primary btn-danger vote-button">
+          Downvote (
+          <span id="number-downvotes"></span>)</button>
+
+        <button id="delete-button" data-meme-id="" type="button" class="btn btn-primary btn-danger">
+          DELETE</button>
+
       </div>
     </div>
   </div>
 </div>
 
-<script src="{% static 'bleuenoix/salvattore.js' %}"></script>
-
-{% endblock %}
+<script src="{% static 'bleuenoix/salvattore.js' %}"></script> {% endblock %}

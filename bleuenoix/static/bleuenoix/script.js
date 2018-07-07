@@ -81,15 +81,12 @@ $(document).ready(function () {
     }
     else {
       $('#edit-button').hide();
-
     }
     if ($(e.relatedTarget).data('meme-deletable') === true) {
       $('#delete-button').show();
-
     }
     else {
       $('#delete-button').hide();
-
     }
     $('.vote-button').unbind();
     $(".vote-button").click({ memeid: $(e.relatedTarget).data('meme-id') }, votefunction);

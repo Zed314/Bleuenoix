@@ -58,7 +58,11 @@ def likeMeme(request):
             likedMeme = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
-        likedMeme.upvoters.add(request.user.profile)
+        if request.user.profile in likedMeme.upvoters.all():
+            likedMeme.upvoters.remove(request.user.profile)
+        else:   
+            likedMeme.upvoters.add(request.user.profile)
+        # Just in case, we do it in both cases
         likedMeme.downvoters.remove(request.user.profile)
         likedMeme.save()
         return JsonResponse({'ok': True, 'upvotes': likedMeme.upvoters.count(), 'downvotes': likedMeme.downvoters.count()})
@@ -76,8 +80,12 @@ def dislikeMeme(request):
             dislikedMeme = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
+        if request.user.profile in dislikedMeme.downvoters.all():
+            dislikedMeme.downvoters.remove(request.user.profile)
+        else:   
+            dislikedMeme.downvoters.add(request.user.profile)
+        # Just in case, we do it in both cases
         dislikedMeme.upvoters.remove(request.user.profile)
-        dislikedMeme.downvoters.add(request.user.profile)
         dislikedMeme.save()
         return JsonResponse({'ok': True, 'upvotes': dislikedMeme.upvoters.count(), 'downvotes': dislikedMeme.downvoters.count()})
     else:
