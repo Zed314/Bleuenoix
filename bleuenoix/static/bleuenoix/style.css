@@ -25,7 +25,11 @@
   position: relative;
 }
 /* When you mouse over the container, fade in the overlay title */
-.container-overlay:hover .overlay {
+/*.container-overlay:hover .overlay {
+  opacity: 1;
+}*/
+
+.center-cropped:hover .overlay {
   opacity: 1;
 }
 
@@ -114,7 +118,7 @@ html {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-
+  position: relative;
 
 
 }

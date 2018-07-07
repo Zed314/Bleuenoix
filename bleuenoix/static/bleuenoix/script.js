@@ -11,10 +11,11 @@ $(document).ready(function () {
         $.each(memes, function (index, value) {
           var divWrapper = $("<div class ='container-overlay'>");
           var memeToAdd = $("<div>");
-          memeToAdd.append($("<div>", {
+          var background = $("<div>", {
             "class": "center-cropped",
             "style": "background-image: url(" + value.image + ");"
-          }));
+          });
+          memeToAdd.append(background);
           var aboveoverlay = $("<div>", {
             "data-meme-id": value.id,
             "data-meme-uploader": value.uploader,
@@ -33,7 +34,7 @@ $(document).ready(function () {
             "class": "overlay"
           });
           var buttonUpVote = $("<span>", {
-            "class": "vote-button no-modal",
+            "class": "vote-button-overlay no-modal",
             "data-meme-id": value.id,
             "data-appreciation": "like"
           });
@@ -43,17 +44,19 @@ $(document).ready(function () {
             "data-meme-id": value.id,
             "data-appreciation": "dislike"
           });
-          buttonDownVote.html("👎");
+
+           buttonDownVote.html("👎");
+           buttonUpVote.click({ memeid: value.id }, votefunction);
+
+           buttonDownVote.click({ memeid: value.id }, votefunction);
+      
           overlay.append(buttonUpVote);
           overlay.append(buttonDownVote);
-          memeToAdd.append(aboveoverlay);
-          memeToAdd.append(overlay);
+          background.append(aboveoverlay);
+          background.append(overlay);
           divWrapper.append(memeToAdd);
           $("#grid").append(divWrapper);
 
-          buttonUpVote.click({ memeid: value.id }, votefunction);
-
-          buttonDownVote.click({ memeid: value.id }, votefunction);
 
         });
         salvattore.rescanMediaQueries();
@@ -115,6 +118,7 @@ $(document).ready(function () {
   function votefunction(event) {
     var memeid = event.data.memeid;
     var appreciation = $(this).data('appreciation');
+    console.log(memeid);
     $.ajax(
       {
         type: "GET",
