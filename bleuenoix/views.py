@@ -52,7 +52,7 @@ def deconnexion(request):
 def likeMeme(request):
     if request.method == 'GET':
         post_id = request.GET.get('post_id', False)
-        if post_id == False:
+        if not post_id:
             return JsonResponse({'ok': False})
         try:
             likedMeme = Meme.objects.get(id=post_id)
@@ -95,7 +95,7 @@ def getAllMemes(request):
     if request.method == 'GET':
         memeArray=[]
         memeDict = {}
-        for meme in Meme.objects.all():
+        for meme in Meme.objects.order_by('-date'):#[:10]
             memeId = meme.id
             title = meme.title
             image = meme.image.url
