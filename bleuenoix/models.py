@@ -7,7 +7,7 @@ from django.conf import settings
 
 class Profil(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, related_name='profile')
-    avatar = models.ImageField(null=False, blank=False, upload_to="avatars/", default='bleuenoix/profile_default.png') 
+    avatar = models.ImageField(null=False, blank=False, upload_to="avatars/", default='bleuenoix/profile_default.png')
  
     def __str__(self):
         return "Profile of {0}".format(self.user.username)
@@ -33,5 +33,4 @@ class Category(models.Model):
         verbose_name = "category"
         ordering = ['name']
     def __str__(self):
-        return self.name
-        
+        return self.name    

@@ -48,46 +48,30 @@ def deconnexion(request):
     logout(request)
     return redirect(reverse("home"))
 
-
-def likeMeme(request):
+def voteMeme(request, like):
     if request.method == 'GET':
         post_id = request.GET.get('post_id', False)
         if not post_id:
             return JsonResponse({'ok': False})
         try:
-            likedMeme = Meme.objects.get(id=post_id)
+            votedMeme = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
-        if request.user.profile in likedMeme.upvoters.all():
-            likedMeme.upvoters.remove(request.user.profile)
-        else:   
-            likedMeme.upvoters.add(request.user.profile)
-        # Just in case, we do it in both cases
-        likedMeme.downvoters.remove(request.user.profile)
-        likedMeme.save()
-        return JsonResponse({'ok': True, 'upvotes': likedMeme.upvoters.count(), 'downvotes': likedMeme.downvoters.count()})
-
-    else:
-        return JsonResponse({'ok': False})
-
-
-def dislikeMeme(request):
-    if request.method == 'GET':
-        post_id = request.GET.get('post_id', False)
-        if not post_id:
-            return JsonResponse({'ok': False})
-        try:
-            dislikedMeme = Meme.objects.get(id=post_id)
-        except Meme.DoesNotExist:
-            return JsonResponse({'ok': False})
-        if request.user.profile in dislikedMeme.downvoters.all():
-            dislikedMeme.downvoters.remove(request.user.profile)
-        else:   
-            dislikedMeme.downvoters.add(request.user.profile)
-        # Just in case, we do it in both cases
-        dislikedMeme.upvoters.remove(request.user.profile)
-        dislikedMeme.save()
-        return JsonResponse({'ok': True, 'upvotes': dislikedMeme.upvoters.count(), 'downvotes': dislikedMeme.downvoters.count()})
+        if like:
+            votedMeme.downvoters.remove(request.user.profile)
+            if request.user.profile in votedMeme.upvoters.all():
+                votedMeme.upvoters.remove(request.user.profile)
+            else:   
+                votedMeme.upvoters.add(request.user.profile)
+        else:
+            votedMeme.upvoters.remove(request.user.profile)
+            if request.user.profile in votedMeme.downvoters.all():
+                votedMeme.downvoters.remove(request.user.profile)
+            else:   
+                votedMeme.downvoters.add(request.user.profile)
+        
+        votedMeme.save()
+        return JsonResponse({'ok': True, 'upvotes': votedMeme.upvoters.count(), 'downvotes': votedMeme.downvoters.count()})
     else:
         return JsonResponse({'ok': False})
 
@@ -170,9 +154,3 @@ class ListMemes(ListView):
     model = Meme
     context_object_name = "memes"
     template_name = "bleuenoix/home.html"
-
-
-class SeeMeme(DetailView):
-    model = Meme
-    context_object_name = "meme"
-    template_name = "bleuenoix/explore.html"
