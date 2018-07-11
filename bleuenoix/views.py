@@ -1,6 +1,7 @@
 """ Views """
 
 from django.shortcuts import render, redirect
+from django.db.models import Count
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
@@ -75,30 +76,42 @@ def voteMeme(request, like):
     else:
         return JsonResponse({'ok': False})
 
+def renderMemes(request, memes):
+    memeArray=[]
+    memeDict = {}
+    for meme in memes:
+        memeId = meme.id
+        title = meme.title
+        image = meme.image.url
+        editable = request.user == meme.uploader or request.user.has_perm('bleuenoix.change_meme')
+        deletable  = request.user == meme.uploader or request.user.has_perm('bleuenoix.delete_meme')
+        if meme.category:
+            category = meme.category.name
+        else:
+            category = ""
+        if meme.uploader:
+            uploader = meme.uploader.username
+        else:
+            uploader = ""
+        upvoters = meme.upvoters.count()
+        downvoters = meme.downvoters.count()
+        record = {"id":memeId, "title":title,"image":image,"editable":editable,"deletable":deletable,"category":category,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
+        memeArray.append(record)
+    memeDict["memes"]=memeArray
+    return JsonResponse(memeDict)
+
 def getAllMemes(request):
     if request.method == 'GET':
-        memeArray=[]
-        memeDict = {}
-        for meme in Meme.objects.order_by('-date'):#[:10]
-            memeId = meme.id
-            title = meme.title
-            image = meme.image.url
-            editable = request.user == meme.uploader or request.user.has_perm('bleuenoix.change_meme')
-            deletable  = request.user == meme.uploader or request.user.has_perm('bleuenoix.delete_meme')
-            if meme.category:
-                category = meme.category.name
-            else:
-                category = ""
-            if meme.uploader:
-                uploader = meme.uploader.username
-            else:
-                uploader = ""
-            upvoters = meme.upvoters.count()
-            downvoters = meme.downvoters.count()
-            record = {"id":memeId, "title":title,"image":image,"editable":editable,"deletable":deletable,"category":category,"uploader":uploader,"upvoters":upvoters,"downvoters":downvoters}
-            memeArray.append(record)
-        memeDict["memes"]=memeArray
-        return JsonResponse(memeDict)
+        memes = Meme.objects.order_by('-date')#>[:10]
+        return renderMemes(request, memes)
+    else:
+        return JsonResponse({'ok': False})
+
+def getAllMemesOrderedByVote(request):
+    if request.method == 'GET':
+        memes = Meme.objects.order_by('-date')#>[:10]
+        memes = Meme.objects.annotate(upvote_count=Count('upvoters')).order_by('-upvote_count')
+        return renderMemes(request, memes)
     else:
         return JsonResponse({'ok': False})
 
