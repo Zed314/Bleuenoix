@@ -16,57 +16,7 @@ $(document).ready(function () {
           //not id because savatorre
           $(".container-overlay").empty();
           var memes = data.memes;
-          $.each(memes, function (index, value) {
-            var divWrapper = $("<div class ='container-overlay'>");
-            var memeToAdd = $("<div>");
-            var background = $("<div>", {
-              "class": "center-cropped",
-              "style": "background-image: url(" + value.image + ");"
-            });
-            memeToAdd.append(background);
-            var aboveoverlay = $("<div>", {
-              "data-meme-id": value.id,
-              "data-meme-uploader": value.uploader,
-              "data-meme-upvotes": value.upvoters,
-              "data-meme-downvotes": value.downvoters,
-              "data-meme-category": value.category,
-              "data-meme-title": value.title,
-              "data-meme-url": value.image,
-              "data-meme-editable": value.editable,
-              "data-meme-deletable": value.deletable,
-              "class": "modal-opener above-overlay",
-              "data-toggle": "modal",
-              "data-target": "#memeModal"
-            });
-            var overlay = $("<div>", {
-              "class": "overlay"
-            });
-            var buttonUpVote = $("<span>", {
-              "class": "vote-button-overlay no-modal",
-              "data-meme-id": value.id,
-              "data-appreciation": "like"
-            });
-            buttonUpVote.html("👍");
-            var buttonDownVote = $("<span>", {
-              "class": "vote-button no-modal",
-              "data-meme-id": value.id,
-              "data-appreciation": "dislike"
-            });
-  
-            buttonDownVote.html("👎");
-            buttonUpVote.click({ memeid: value.id }, votefunction);
-  
-            buttonDownVote.click({ memeid: value.id }, votefunction);
-  
-            overlay.append(buttonUpVote);
-            overlay.append(buttonDownVote);
-            background.append(aboveoverlay);
-            background.append(overlay);
-            divWrapper.append(memeToAdd);
-            $("#grid").append(divWrapper);
-  
-  
-          });
+          renderMemes(memes);
           salvattore.rescanMediaQueries();
           
         }
@@ -80,57 +30,7 @@ $(document).ready(function () {
       data: {},
       success: function (data) {
         var memes = data.memes;
-        $.each(memes, function (index, value) {
-          var divWrapper = $("<div class ='container-overlay'>");
-          var memeToAdd = $("<div>");
-          var background = $("<div>", {
-            "class": "center-cropped",
-            "style": "background-image: url(" + value.image + ");"
-          });
-          memeToAdd.append(background);
-          var aboveoverlay = $("<div>", {
-            "data-meme-id": value.id,
-            "data-meme-uploader": value.uploader,
-            "data-meme-upvotes": value.upvoters,
-            "data-meme-downvotes": value.downvoters,
-            "data-meme-category": value.category,
-            "data-meme-title": value.title,
-            "data-meme-url": value.image,
-            "data-meme-editable": value.editable,
-            "data-meme-deletable": value.deletable,
-            "class": "modal-opener above-overlay",
-            "data-toggle": "modal",
-            "data-target": "#memeModal"
-          });
-          var overlay = $("<div>", {
-            "class": "overlay"
-          });
-          var buttonUpVote = $("<span>", {
-            "class": "vote-button-overlay no-modal",
-            "data-meme-id": value.id,
-            "data-appreciation": "like"
-          });
-          buttonUpVote.html("👍");
-          var buttonDownVote = $("<span>", {
-            "class": "vote-button no-modal",
-            "data-meme-id": value.id,
-            "data-appreciation": "dislike"
-          });
-
-          buttonDownVote.html("👎");
-          buttonUpVote.click({ memeid: value.id }, votefunction);
-
-          buttonDownVote.click({ memeid: value.id }, votefunction);
-
-          overlay.append(buttonUpVote);
-          overlay.append(buttonDownVote);
-          background.append(aboveoverlay);
-          background.append(overlay);
-          divWrapper.append(memeToAdd);
-          $("#grid").append(divWrapper);
-
-
-        });
+        renderMemes(memes);
         salvattore.rescanMediaQueries();
       }
     })
@@ -211,6 +111,58 @@ $(document).ready(function () {
       })
   }
 
+  function renderMemes(memes)
+{
+  $.each(memes, function (index, value) {
+    var divWrapper = $("<div class ='container-overlay'>");
+    var memeToAdd = $("<div>");
+    var background = $("<div>", {
+      "class": "center-cropped",
+      "style": "background-image: url(" + value.image + ");"
+    });
+    memeToAdd.append(background);
+    var aboveoverlay = $("<div>", {
+      "data-meme-id": value.id,
+      "data-meme-uploader": value.uploader,
+      "data-meme-upvotes": value.upvoters,
+      "data-meme-downvotes": value.downvoters,
+      "data-meme-category": value.category,
+      "data-meme-title": value.title,
+      "data-meme-url": value.image,
+      "data-meme-editable": value.editable,
+      "data-meme-deletable": value.deletable,
+      "class": "modal-opener above-overlay",
+      "data-toggle": "modal",
+      "data-target": "#memeModal"
+    });
+    var overlay = $("<div>", {
+      "class": "overlay"
+    });
+    var buttonUpVote = $("<span>", {
+      "class": "vote-button-overlay no-modal",
+      "data-meme-id": value.id,
+      "data-appreciation": "like"
+    });
+    buttonUpVote.html("👍");
+    var buttonDownVote = $("<span>", {
+      "class": "vote-button no-modal",
+      "data-meme-id": value.id,
+      "data-appreciation": "dislike"
+    });
+
+    buttonDownVote.html("👎");
+    buttonUpVote.click({ memeid: value.id }, votefunction);
+
+    buttonDownVote.click({ memeid: value.id }, votefunction);
+
+    overlay.append(buttonUpVote);
+    overlay.append(buttonDownVote);
+    background.append(aboveoverlay);
+    background.append(overlay);
+    divWrapper.append(memeToAdd);
+    $("#grid").append(divWrapper);
+  });
+}
 
 
 });
