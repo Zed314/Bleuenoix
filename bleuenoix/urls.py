@@ -27,8 +27,8 @@ urlpatterns = [
         login_required(views.UpdateProfil.as_view()),
         name="updateprofile"
     ),
-    path("getAllMemes", login_required(views.getAllMemesOrderedByVote), name="getAllMemes"),
-    #path("getAllMemes", login_required(views.getAllMemes), name="getAllMemes"),
+    path("getAllMemes", login_required(views.getAllMemes), name="getAllMemes"),
+    path("getPreferredMemes", login_required(views.getAllMemesOrderedByVote), name="getPreferredMemes"),
     path("likememe", login_required(views.voteMeme), {'like':True}, name="likememe"),
     path("dislikememe", login_required(views.voteMeme), {'like':False}, name="dislikememe"),
     path("deletememe", login_required(views.deleteMeme), name="deletememe"),
