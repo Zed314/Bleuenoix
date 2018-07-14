@@ -27,7 +27,10 @@
 .container-overlay {
   position: relative;
 }
-.modal-body .container-overlay:hover .overlay{
+.container-overlay-modal {
+ position: relative;
+}
+.modal-body .container-overlay-modal:hover .overlay{
   opacity: 1;
 }
 

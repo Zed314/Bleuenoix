@@ -1,11 +1,22 @@
 
 $(document).ready(function () {
 
-
+  var anchor = window.location.hash.substr(1);
+  if(anchor != "")
+  {
+    if(anchor == "sortByLike")
+    {
+      getAndDisplayFunctionURL($("#buttonGetPreferredMemes").data('url'));
+    }
+  }
+  else
+  {
+    var url= "/memes/getAllMemes";
+    getAndDisplayFunctionURL("/memes/getAllMemes");
+  }
   $("#buttonGetPreferredMemes").click({ url: $("#buttonGetPreferredMemes").data('url') }, getAndDisplayFunction);
-  function getAndDisplayFunction(event) {
-    var url = event.data.url;
-    console.log(event);
+  function getAndDisplayFunctionURL(url) {
+    
     $.ajax(
       {
         type: "GET",
@@ -21,17 +32,11 @@ $(document).ready(function () {
         }
       });
   }
-  $.ajax(
-    {
-      type: "GET",
-      url: "/memes/getAllMemes",
-      data: {},
-      success: function (data) {
-        var memes = data.memes;
-        renderMemes(memes);
-        salvattore.rescanMediaQueries();
-      }
-    });
+  function getAndDisplayFunction(event) {
+    var url = event.data.url;
+    getAndDisplayFunctionURL(url);
+  }
+
 
   $('#memeModal').on('show.bs.modal', function (e) {
     //get data-id attribute of the clicked element
