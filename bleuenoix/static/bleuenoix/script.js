@@ -8,6 +8,10 @@ $(document).ready(function () {
     {
       getAndDisplayFunctionURL($("#buttonGetPreferredMemes").data('url'));
     }
+    else if(anchor == "sortByDislike")
+    {
+      getAndDisplayFunctionURL($("#buttonGetHatedMemes").data('url'));
+    }
   }
   else
   {
@@ -15,6 +19,8 @@ $(document).ready(function () {
     getAndDisplayFunctionURL("/memes/getAllMemes");
   }
   $("#buttonGetPreferredMemes").click({ url: $("#buttonGetPreferredMemes").data('url') }, getAndDisplayFunction);
+  $("#buttonGetHatedMemes").click({ url: $("#buttonGetHatedMemes").data('url') }, getAndDisplayFunction);
+  
   function getAndDisplayFunctionURL(url) {
     
     $.ajax(
@@ -39,10 +45,7 @@ $(document).ready(function () {
 
 
   $('#memeModal').on('show.bs.modal', function (e) {
-    //get data-id attribute of the clicked element
     $("#modal-title").text($(e.relatedTarget).data('meme-title'));
-    //populate the textboxe.currentTarget).find('#inside').val($(e.relatedTarget).data('meme-id'));
-
     $("#img-modal").attr("src", $(e.relatedTarget).data('meme-url'));
     $(".vote-button").attr("data-meme-id", $(e.relatedTarget).data('meme-id'));
     $('#number-upvotes').text($(e.relatedTarget).data('meme-upvotes'));

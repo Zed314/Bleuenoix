@@ -7,14 +7,15 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 from .models import Meme, Profil
 
 from .forms import MemeForm, ProfilForm, SignUpForm
 
-from django.db.models.signals import post_save
 
-def create_profile(sender,**kwargs ):
+
+def create_profile(sender, **kwargs):
     if kwargs['created']:
         user = kwargs['instance']
         if not hasattr(user, 'profile'):
@@ -77,7 +78,7 @@ def voteMeme(request, like):
         return JsonResponse({'ok': False})
 
 def renderMemes(request, memes):
-    memeArray=[]
+    memeArray = []
     memeDict = {}
     for meme in memes:
         memeId = meme.id
@@ -115,6 +116,14 @@ def getAllMemesOrderedByVote(request):
     else:
         return JsonResponse({'ok': False})
 
+def getAllMemesOrderedByDislikeVote(request):
+    if request.method == 'GET':
+        memes = Meme.objects.order_by('-date')#>[:10]
+        memes = Meme.objects.annotate(downvote_count=Count('downvoters')).order_by('-downvote_count')
+        return renderMemes(request, memes)
+    else:
+        return JsonResponse({'ok': False})
+
 
 def deleteMeme(request):
     if request.method == 'GET':
@@ -125,9 +134,8 @@ def deleteMeme(request):
             memeToDelete = Meme.objects.get(id=post_id)
         except Meme.DoesNotExist:
             return JsonResponse({'ok': False})
-        if not request.user.has_perm("bleuenoix.delete_meme") and not (request.user == memeToDelete.uploader):
+        if not request.user.has_perm("bleuenoix.delete_meme") and not request.user == memeToDelete.uploader:
             return JsonResponse({'ok': False})
-
         memeToDelete.delete()
         return JsonResponse({'ok': True})  # Sending an success response
     else:

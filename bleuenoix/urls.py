@@ -29,6 +29,7 @@ urlpatterns = [
     ),
     path("getAllMemes", login_required(views.getAllMemes), name="getAllMemes"),
     path("getPreferredMemes", login_required(views.getAllMemesOrderedByVote), name="getPreferredMemes"),
+    path("getHatedMemes", login_required(views.getAllMemesOrderedByDislikeVote), name="getHatedMemes"),
     path("likememe", login_required(views.voteMeme), {'like':True}, name="likememe"),
     path("dislikememe", login_required(views.voteMeme), {'like':False}, name="dislikememe"),
     path("deletememe", login_required(views.deleteMeme), name="deletememe"),
