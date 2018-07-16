@@ -12,6 +12,15 @@ $(document).ready(function () {
     {
       getAndDisplayFunctionURL($("#buttonGetHatedMemes").data('url'));
     }
+    else if(anchor == "myMemes")
+    {
+      getAndDisplayFunctionURL($("#buttonGetMyMemes").data('url'));
+    }
+    else 
+    {
+      var url= "/memes/getAllMemes";
+      getAndDisplayFunctionURL("/memes/getAllMemes");
+    }
   }
   else
   {
@@ -20,6 +29,7 @@ $(document).ready(function () {
   }
   $("#buttonGetPreferredMemes").click({ url: $("#buttonGetPreferredMemes").data('url') }, getAndDisplayFunction);
   $("#buttonGetHatedMemes").click({ url: $("#buttonGetHatedMemes").data('url') }, getAndDisplayFunction);
+  $("#buttonGetMyMemes").click({ url: $("#buttonGetMyMemes").data('url') }, getAndDisplayFunction);
   
   function getAndDisplayFunctionURL(url) {
     

@@ -118,8 +118,16 @@ def getAllMemesOrderedByVote(request):
 
 def getAllMemesOrderedByDislikeVote(request):
     if request.method == 'GET':
-        memes = Meme.objects.order_by('-date')#>[:10]
+        memes = Meme.objects.order_by('-date')
         memes = Meme.objects.annotate(downvote_count=Count('downvoters')).order_by('-downvote_count')
+        return renderMemes(request, memes)
+    else:
+        return JsonResponse({'ok': False})
+
+def getMyMemes(request):
+    if request.method == 'GET':
+        memes = Meme.objects.order_by('-date')
+        memes = Meme.objects.filter(uploader=request.user)
         return renderMemes(request, memes)
     else:
         return JsonResponse({'ok': False})
