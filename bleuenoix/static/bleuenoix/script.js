@@ -229,6 +229,4 @@ $(document).ready(function () {
       $("#grid").append(divWrapper);
     });
   }
-
-
 });
