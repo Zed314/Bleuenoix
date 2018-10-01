@@ -110,7 +110,7 @@ def getAllMemes(request):
 
 def getAllMemesOrderedByVote(request):
     if request.method == 'GET':
-        memes = Meme.objects.order_by('-date')#>[:10]
+        memes = Meme.objects.order_by('-date')
         memes = Meme.objects.annotate(upvote_count=Count('upvoters')).order_by('-upvote_count')
         return renderMemes(request, memes)
     else:

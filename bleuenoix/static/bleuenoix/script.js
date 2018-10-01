@@ -39,7 +39,6 @@ $(document).ready(function () {
         url: url,
         data: {},
         success: function (data) {
-          //console.log($("#wrapperImageWall"));
           //not id because savatorre
           $(".container-overlay").empty();
           var memes = data.memes;
@@ -95,8 +94,11 @@ $(document).ready(function () {
             alert("Fail");
             return;
           }
+          console.log( $("[data-meme-id=" + memeid + "]").remove());
           $("[data-meme-id=" + memeid + "]").remove();
+          console.log(document.querySelector('#grid'));
           salvattore.recreateColumns(document.querySelector('#grid'));
+          salvattore.rescanMediaQueries(document.querySelector('#grid'));
           $('#memeModal').modal('toggle');
         }
       })
