@@ -5,3 +5,4 @@ media/
 */*pycache*/
 local_settings.py
 env
+data/db/
