@@ -17,11 +17,11 @@ urlpatterns = [
     ),
     path(
         "login",
-        auth_views.login,
+        auth_views.LoginView.as_view(template_name ="bleuenoix/login.html"),
         {"template_name": "bleuenoix/login.html"},
         name="login",
     ),
-    path("logout", auth_views.logout, {"next_page": "/memes"}, name="logout"),
+    path("logout", auth_views.LogoutView.as_view(), {"next_page": "/memes"}, name="logout"),
     path(
         "profil/<int:pk>",
         login_required(views.UpdateProfil.as_view()),

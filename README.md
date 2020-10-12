@@ -10,6 +10,8 @@ This project is based on Django 2.0.6 and on Pillow. Thus, it requires Python3 a
 
 # Install and Run Server
 
+## Using virtualenv
+
 To generate the virtual environment of the server, simply use the command :
 
 ```  virtualenv --no-site-packages --distribute env && source env/bin/activate && pip install -r requirements.txt ```
@@ -29,6 +31,14 @@ Then to run the server
 ```  source env/bin/activate && python3 manage.py runserver ```
 
 To exit simply press Ctrl-C and type ``` deactivate```
+
+## Using docker-compose
+
+Just type
+
+```docker-compose up```
+
+:)
 
 # Addtional installation
 
